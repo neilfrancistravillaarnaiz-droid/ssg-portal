@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as *;
 
 .student-layout {
   min-height: 100vh;

@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables" as *;
 
 /* RESPONSIVE TYPOGRAPHY SYSTEM */
 @mixin responsive-font-size($mobile, $tablet, $desktop) {
