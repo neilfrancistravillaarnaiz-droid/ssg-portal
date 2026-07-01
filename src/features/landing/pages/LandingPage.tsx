@@ -19,6 +19,7 @@ import {
   Trophy,
   ChevronRight,
   Upload,
+  Lock,
 } from "lucide-react";
 
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
@@ -448,9 +449,12 @@ export default function LandingPage() {
       <footer>
         <div className="footer-inner">
           <div className="footer-brand">
-            <div className="brand-logo">
+            <Link to="/admin/login" className="brand-logo footer-brand-logo">
               <video src={ssgLogo} autoPlay loop muted playsInline />
-            </div>
+              <span className="admin-hidden-link" aria-hidden="true">
+                <Lock size={16} />
+              </span>
+            </Link>
             <div>
               <h3>StudentHub</h3>
               <p>

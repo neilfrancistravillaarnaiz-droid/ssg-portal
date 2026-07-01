@@ -1,325 +1,573 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
-
-$navy: #061936;
-$royal: #075adf;
-$blue: #1473ff;
-$sky: #3ca7ff;
-$white: #ffffff;
-$soft-blue: #f5faff;
-$text-dark: #071a38;
-$text-mid: #4b5f7a;
-$text-light: #7e94b3;
-$border: #dce9f8;
+@import "variables";
 
 .auth-page {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   background: $soft-blue;
+  padding: 48px 24px 64px;
   font-family: "Inter", sans-serif;
   color: $text-dark;
+
+  @include respond-to("md") {
+    padding: 24px 1rem 48px;
+  }
+
+  @include respond-to("sm") {
+    padding: 1rem;
+  }
 }
 
-.auth-left {
+.auth-container {
   position: relative;
-  padding: 3rem;
-  background:
-    radial-gradient(circle at 80% 20%, rgba($sky, 0.25), transparent 30%),
-    linear-gradient(135deg, $navy, #073272);
+  width: 1080px;
+  max-width: 100%;
+  height: 760px;
+  max-height: calc(100vh - 56px);
+  min-height: 760px;
+  background: $white;
+  border-radius: $radius-2xl;
+  overflow: hidden;
+  box-shadow: $shadow-xl;
+
+  @include respond-to("md") {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+  }
+}
+
+.overlay-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 56%;
+  background: linear-gradient(145deg, $royal 0%, #061936 100%);
   color: $white;
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
+  padding: 48px 68px 56px 100px;
+  clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%);
+  transition:
+    transform 900ms cubic-bezier(0.77, 0, 0.18, 1),
+    clip-path 900ms cubic-bezier(0.77, 0, 0.18, 1);
+
+  @include respond-to("md") {
+    position: static;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    clip-path: none;
+  }
 }
 
-.back-home {
-  width: fit-content;
-  color: rgba($white, 0.85);
+.auth-container.active .overlay-panel {
+  transform: translateX(79.5%);
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+
+  @include respond-to("md") {
+    transform: none;
+  }
+}
+
+.form-panel {
+  position: absolute;
+  top: 0;
+  width: 45%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 64px;
+  overflow-y: auto;
+  z-index: 2;
+  transition:
+    opacity 700ms cubic-bezier(0.77, 0, 0.18, 1),
+    transform 700ms cubic-bezier(0.77, 0, 0.18, 1),
+    filter 700ms cubic-bezier(0.77, 0, 0.18, 1);
+
+  @include respond-to("md") {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 2rem 1.5rem;
+  }
+
+  @include respond-to("sm") {
+    padding: 1.5rem 1rem;
+  }
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+}
+
+// login sits on the right (under the overlay at rest);
+// signup sits on the left (under the overlay once it slides right)
+.form-panel--login {
+  right: 0;
+  left: auto;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.form-panel--signup {
+  left: 0;
+  right: auto;
+  opacity: 0;
+  transform: translateX(-24px);
+  pointer-events: none;
+}
+
+.auth-container.active .form-panel--login {
+  opacity: 0;
+  transform: translateX(24px);
+  pointer-events: none;
+}
+
+.auth-container.active .form-panel--signup {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.overlay-top {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.overlay-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  flex: 1;
+  align-items: flex-start; // was center — content should hug the left padding, not center itself
+}
+
+.back-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
+  color: rgba($white, 0.85);
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-
-  &:hover {
-    color: $white;
-  }
 }
 
-.auth-brand {
+.brand-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
 }
 
-.auth-logo {
-  width: 70px;
-  height: 70px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: rgba($white, 0.1);
-
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.auth-brand h1,
-.auth-message h2,
-.login-header h2 {
-  font-family: "Plus Jakarta Sans", sans-serif;
-}
-
-.auth-brand h1 {
-  font-size: 2rem;
-}
-
-.auth-brand p {
-  color: rgba($white, 0.72);
-  margin-top: 0.2rem;
-}
-
-.auth-message {
-  max-width: 560px;
-
-  span {
-    width: fit-content;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 999px;
-    background: rgba($sky, 0.14);
-    border: 1px solid rgba($sky, 0.3);
-    color: #93dcff;
-    font-size: 0.78rem;
-    font-weight: 800;
-    margin-bottom: 1.2rem;
-  }
-
-  h2 {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    line-height: 1;
-    margin-bottom: 1.2rem;
-  }
-
-  p {
-    color: rgba($white, 0.78);
-    line-height: 1.8;
-    font-size: 1rem;
-  }
-}
-
-.auth-right {
-  padding: 3rem;
-  display: grid;
-  place-items: center;
-}
-
-.login-card {
-  width: 100%;
-  max-width: 430px;
-  background: rgba($white, 0.94);
-  border: 1px solid $border;
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 24px 60px rgba($navy, 0.12);
-}
-
-.login-header {
-  margin-bottom: 1.8rem;
-
-  h2 {
-    font-size: 2rem;
-    color: $text-dark;
-    margin-bottom: 0.4rem;
-  }
-
-  p {
-    color: $text-mid;
-    font-size: 0.92rem;
-  }
-}
-
-.input-group {
-  margin-bottom: 1.2rem;
-
-  label {
-    display: block;
-    color: $text-dark;
-    font-weight: 800;
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
-  }
-}
-
-.input-box {
-  height: 52px;
-  border: 1px solid $border;
+.brand-mark {
+  width: 54px;
+  height: 54px;
   border-radius: 14px;
   background: $white;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0 1rem;
-  transition: 0.2s ease;
-
-  &:focus-within {
-    border-color: $blue;
-    box-shadow: 0 0 0 4px rgba($blue, 0.1);
-  }
-
-  svg {
-    color: $text-light;
-    flex-shrink: 0;
-  }
-
-  input {
-    width: 100%;
-    border: none;
-    outline: none;
-    color: $text-dark;
-    font-size: 0.95rem;
-    background: transparent;
-
-    &::placeholder {
-      color: $text-light;
-    }
-  }
-
-  button {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-  }
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.login-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin: 0.8rem 0 1.4rem;
-  font-size: 0.85rem;
-
-  label {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: $text-mid;
-  }
-
-  a {
-    color: $royal;
-    text-decoration: none;
-    font-weight: 800;
-  }
+.brand-logo-video {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
-.login-btn {
+.brand-mark video,
+.brand-logo-video video {
   width: 100%;
-  height: 52px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brand-tag {
+  font-size: 13.5px;
+  color: rgba($white, 0.7);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: rgba($white, 0.08);
+  border: 1px solid rgba($white, 0.18);
+  color: #bcd0ff;
+  padding: 8px 16px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.overlay-text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.overlay-title {
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.overlay-title span {
+  color: #7fa6ff;
+}
+
+.overlay-sub {
+  font-size: 15px;
+  color: rgba($white, 0.75);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0;
+}
+
+.form-inner {
+  width: 100%;
+  max-width: 420px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: $blue;
+  background: rgba($blue, 0.08);
+  border: 1px solid rgba($blue, 0.18);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+}
+
+.form-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: $text-dark;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.form-sub {
+  color: $text-mid;
+  font-size: 15px;
+  margin: 0 0 28px;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-dark;
+  margin: 0 0 8px;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap svg {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: #9aa3b8;
+}
+
+// the show/hide password toggle button sits at the right end of the input
+.input-wrap button {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  background: none;
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, $blue, $royal);
-  color: $white;
-  font-weight: 900;
-  font-size: 0.95rem;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
+  color: #9aa3b8;
   cursor: pointer;
-  box-shadow: 0 16px 34px rgba($blue, 0.28);
-
-  &:hover {
-    transform: translateY(-1px);
-  }
+  width: 24px;
+  height: 24px;
 }
 
-.login-note {
-  margin-top: 1.3rem;
+input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid $border;
+  border-radius: 10px;
+  padding: 0 54px 0 42px; // right padding added to leave room for the eye-toggle button
+  font-size: 14.5px;
+  color: $text-dark;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  background: #fbfcfe;
+}
+
+input::placeholder {
+  color: #aab1c2;
+}
+
+input:focus {
+  border-color: $blue;
+  box-shadow: 0 0 0 3px rgba($blue, 0.12);
+  background: $white;
+}
+
+input:disabled {
+  background: #f1f4f9;
+  color: #aab1c2;
+  cursor: not-allowed;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 0 24px;
+  font-size: 13.5px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: $text-mid;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: $blue;
+}
+
+.link {
+  color: $blue;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.verify-btn {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, $royal, #061936);
+  color: $white;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 10px 24px rgba($royal, 0.28);
+  margin-bottom: 18px;
+}
+
+.verify-btn:hover {
+  transform: translateY(-1px);
+}
+
+.verify-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submit {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, $royal, #061936);
+  color: $white;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 10px 24px rgba($royal, 0.28);
+}
+
+.submit:hover {
+  transform: translateY(-1px);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.switch-line {
   text-align: center;
-  line-height: 1.6;
+  margin-top: 22px;
+  font-size: 14px;
+  color: $text-mid;
+}
+
+.switch-line button {
+  background: none;
+  border: none;
+  color: $blue;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.auth-alert {
+  background: #eef5ff;
+  border: 1px solid #cfe0ff;
+  color: $royal;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 18px;
+  font-size: 0.9rem;
+}
+
+.student-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  background: #eef5ff;
+  border: 1px solid #cfe0ff;
+  border-radius: 14px;
+  padding: 0.85rem;
+  margin-bottom: 18px;
+}
+
+.student-preview div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.student-preview span {
+  font-size: 0.68rem;
+  color: $text-light;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.student-preview strong {
   font-size: 0.82rem;
+  color: $text-dark;
 }
 
 @media (max-width: 900px) {
   .auth-page {
-    grid-template-columns: 1fr;
+    align-items: flex-start; // was center — a tall card centered in a short viewport
+    padding: 32px 16px;      // gets squeezed top and bottom, which read as "cut off"
   }
 
-  .auth-left {
-    min-height: 420px;
+  .auth-container {
+    height: auto;
+    min-height: 0;   // was 680px — let the box hug whichever form is taller
+    width: 100%;
+    overflow: visible; // safety net: never let a tall form get clipped by the card mask
+    border-radius: 20px;
+  }
+
+  .overlay-panel,
+  .form-panel {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    height: auto;
+    clip-path: none;
+    transform: none !important;
+  }
+
+  .overlay-panel {
+    display: none;
+  }
+
+  .form-panel--login,
+  .form-panel--signup {
+    display: none;
+  }
+
+  .auth-container:not(.active) .form-panel--login {
+    display: flex;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+
+  .auth-container.active .form-panel--signup {
+    display: flex;
+    opacity: 1;
+    filter: none;
+    transform: none;
   }
 }
 
 @media (max-width: 520px) {
-  .auth-left,
-  .auth-right {
-    padding: 1.5rem;
+  .auth-page {
+    padding: 16px;
   }
 
-  .login-card {
-    padding: 1.5rem;
+  .overlay-panel,
+  .form-panel {
+    padding: 32px;
   }
 
-  .login-options {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-.auth-flip-card {
-  width: 100%;
-  max-width: 430px;
-  perspective: 1200px;
-}
-
-.auth-card-inner {
-  width: 100%;
-  min-height: 580px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.75s ease;
-}
-
-.auth-flip-card.flipped .auth-card-inner {
-  transform: rotateY(180deg);
-}
-
-.auth-card-front,
-.auth-card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-}
-
-.auth-card-back {
-  transform: rotateY(180deg);
-}
-
-.switch-auth {
-  margin-top: 1.2rem;
-  text-align: center;
-  color: $text-mid;
-  font-size: 0.86rem;
-
-  button {
-    border: none;
-    background: transparent;
-    color: $royal;
-    font-weight: 900;
-    cursor: pointer;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  .form-inner {
+    max-width: 100%;
   }
 }

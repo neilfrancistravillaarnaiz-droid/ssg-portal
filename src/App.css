@@ -1,3 +1,82 @@
+/* ROOT ELEMENT */
 #root {
   width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RESPONSIVE CONTAINER */
+.app-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* RESPONSIVE IMAGE */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* RESPONSIVE IFRAME & VIDEO */
+iframe,
+video,
+embed {
+  max-width: 100%;
+  height: auto;
+}
+
+/* MOBILE SAFE AREA SUPPORT */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+}
+
+/* ACCESSIBILITY: REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* DARK MODE SUPPORT */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* PRINT STYLES */
+@media print {
+  body {
+    background: white;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  /* Hide interactive elements */
+  button,
+  [role="button"],
+  .sidebar,
+  .topbar,
+  .nav-links {
+    display: none !important;
+  }
 }
