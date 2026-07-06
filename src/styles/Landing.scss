@@ -407,8 +407,6 @@ html {
     z-index: 2;
   }
 
-  /* Removed right-side circular gradient overlay */
-
   .hero-inner {
     max-width: 1200px;
     width: 100%;
@@ -725,143 +723,117 @@ html {
   }
 }
 
-/* CLUBS */
+/* CLUBS ("Academic Departments"-style layout: centered intro copy,
+   two badge-and-text columns flanking a central tower illustration) */
 .clubs-section {
-  padding: 4.5rem 2rem;
+  padding: 5rem 2rem 6rem;
   background: $white;
+}
+
+.clubs-heading {
+  max-width: 780px;
+  margin: 0 auto 3.5rem;
+  text-align: center;
+
+  &-eyebrow {
+    color: $royal;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+
+  h2 {
+    color: $text-dark;
+    font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0;
+    text-transform: uppercase;
+  }
 }
 
 .clubs-layout {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 0.75fr 1.45fr;
-  gap: 2.2rem;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 2.5rem;
   align-items: start;
+  justify-items: center;
 }
 
-.clubs-copy {
-  span {
-    color: $royal;
-    font-size: 0.78rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  h2 {
-    font-size: 2rem;
-    color: $text-dark;
-    margin: 0.6rem 0 0.7rem;
-  }
-
-  p {
-    color: $text-mid;
-    line-height: 1.7;
-    margin-bottom: 1.4rem;
-  }
-}
-
-.clubs-right {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 1.4rem;
-}
-
-.clubs-right-header {
+.clubs-column {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  justify-content: center;
-  text-align: center;
+  gap: 1.9rem;
   align-items: center;
-
-  .clubs-spacer {
-    width: 100%;
-    height: 0;
-    visibility: hidden;
-    opacity: 0;
-  }
-
-  span {
-    color: $royal;
-    font-size: 0.78rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  h3 {
-    color: $text-dark;
-    font-size: 1.4rem;
-    margin: 0;
-  }
-
-  @include respond-to("md") {
-    text-align: left;
-    align-items: flex-start;
-  }
 }
 
-.clubs-grid {
+.club-item {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: auto 1fr;
   gap: 1rem;
+  align-items: center;
+  text-align: left;
+  width: min(320px, 100%);
 }
 
-.club-card {
-  background: $white;
-  border: 1px solid $border;
-  border-radius: 14px;
-  padding: 1.4rem 1rem;
-  text-align: center;
-  box-shadow: 0 14px 30px rgba($navy, 0.07);
-  transition: 0.2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 42px rgba($royal, 0.13);
-  }
-
-  h3 {
-    color: $text-dark;
-    font-size: 0.95rem;
-    margin: 0.8rem 0 0.4rem;
-  }
-
-  p {
-    color: $text-mid;
-    font-size: 0.78rem;
-    line-height: 1.55;
-    min-height: 50px;
-  }
-
-  strong {
-    color: $royal;
-    font-size: 0.78rem;
-  }
-}
-
-.club-icon {
-  width: 68px;
-  height: 68px;
+.club-item-icon {
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  margin: 0 auto;
   display: grid;
   place-items: center;
-  background: $white;
-  color: $blue;
-  border: 1px solid rgba($blue, 0.16);
   overflow: hidden;
+  flex-shrink: 0;
+  color: $white;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  box-shadow: 0 10px 22px rgba($navy, 0.14);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    display: block;
+  }
+
+  &--navy {
+    background: linear-gradient(135deg, $navy, $royal);
+  }
+
+  &--sky {
+    background: linear-gradient(135deg, $sky, $blue);
+  }
+
+  &--gold {
+    background: linear-gradient(135deg, #f2c94c, #d9a017);
+  }
+
+  &--silver {
+    background: linear-gradient(135deg, #c7cdd6, #8f97a3);
   }
 }
+
+.club-item-text {
+  h3 {
+    color: $text-dark;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    margin: 0 0 0.3rem;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    color: $text-mid;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+}
+/* center column and tower illustration removed */
 
 /* UPDATES */
 .updates-section {
@@ -998,44 +970,45 @@ html {
 
 /* ASSISTANT */
 .assistant-banner {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  padding: 1.6rem 2rem;
-  border-radius: 18px;
-  border: 1px solid rgba($blue, 0.2);
+  max-width: 960px;
+  margin: 0 auto 2.5rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba($blue, 0.18);
   background:
-    radial-gradient(circle at 75% 30%, rgba($sky, 0.2), transparent 30%),
-    linear-gradient(135deg, #dcecff, #f5faff);
+    radial-gradient(circle at 75% 30%, rgba($sky, 0.18), transparent 28%),
+    linear-gradient(135deg, #e5eeff, #f9fbff);
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 1.4rem;
+  gap: 1rem;
   align-items: center;
-  box-shadow: 0 16px 38px rgba($navy, 0.08);
+  box-shadow: 0 10px 24px rgba($navy, 0.08);
 
   .assistant-visual {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
     display: grid;
     place-items: center;
-    background: rgba($white, 0.75);
+    background: rgba($white, 0.85);
     color: $royal;
 
     svg {
-      width: 32px;
-      height: 32px;
+      width: 26px;
+      height: 26px;
     }
   }
 
   h2 {
     color: $text-dark;
-    font-size: 1.45rem;
-    margin-bottom: 0.35rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
   }
 
   p {
     color: $text-mid;
-    line-height: 1.6;
+    line-height: 1.5;
+    font-size: 0.95rem;
   }
 }
 
@@ -1108,27 +1081,6 @@ footer {
         width: 100%;
         height: 100%;
         object-fit: cover;
-      }
-    }
-  }
-
-  .footer-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 1.75rem;
-    align-items: center;
-    padding: 0.15rem 0;
-    border-bottom: 1px solid rgba($text-dark, 0.08);
-    margin-top: 0.75rem;
-
-    a {
-      color: $text-dark;
-      font-size: 0.92rem;
-      font-weight: 600;
-      transition: color 160ms ease;
-
-      &:hover {
-        color: $blue;
       }
     }
   }
@@ -1242,7 +1194,6 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .clubs-layout,
   .updates-grid,
   .assistant-banner,
   footer .footer-inner {

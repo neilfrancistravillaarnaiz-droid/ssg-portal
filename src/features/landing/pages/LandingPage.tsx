@@ -19,6 +19,7 @@ import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
 import techedLogo from "../../../assets/logos/TECHED.jpg";
 import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
 import eceaLogo from "../../../assets/logos/ECEA.jpg";
+import cccdBackground from "../../../assets/logos/CCCD.jpg";
 import "../../../styles/landing.scss";
 
 const stats = [
@@ -31,31 +32,63 @@ const stats = [
 const clubs = [
   {
     name: "Creative Visionaries Club",
-    description: "Most active club in creative programming and student showcases.",
+    short: "Creative Visionaries",
+    description: "Multimedia Club",
     members: "150 Members",
     image: creativeVisionariesLogo,
-    color: "navy",
+    accent: "navy",
   },
   {
     name: "TechEd Innovators Club",
-    description: "Leading campus tech workshops and innovation challenges.",
+    short: "TechEd Innovators",
+    description: "Programming Club",
     members: "130 Members",
     image: techedLogo,
-    color: "green",
+    accent: "sky",
   },
   {
     name: "Udsuhan Dance Club",
-    description: "High-energy performances and regular dance events year-round.",
+    short: "Udsuhan",
+    description: "Dance Club",
     members: "95 Members",
     image: udsuhanLogo,
-    color: "purple",
+    accent: "gold",
   },
   {
     name: "ECEA",
-    description: "Driving academic engagement and campus-wide student initiatives.",
+    short: "ECEA",
+    description: "Early Childhood Club",
     members: "110 Members",
     image: eceaLogo,
-    color: "orange",
+    accent: "silver",
+  },
+  {
+    name: "Media Makers Guild",
+    short: "MMG",
+    description: "Campus media, storytelling, and broadcast production.",
+    members: "125 Members",
+    accent: "navy",
+  },
+  {
+    name: "Debate & Public Speaking Club",
+    short: "DPSC",
+    description: "Competitive debates, forums, and speaker series.",
+    members: "90 Members",
+    accent: "sky",
+  },
+  {
+    name: "Eco Action Circle",
+    short: "EAC",
+    description: "Sustainability drives, cleanups, and environmental advocacy.",
+    members: "80 Members",
+    accent: "gold",
+  },
+  {
+    name: "Volunteer Campus Crew",
+    short: "VCC",
+    description: "Student outreach, service events, and community support.",
+    members: "105 Members",
+    accent: "silver",
   },
 ];
 
@@ -268,40 +301,62 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="clubs-section" id="clubs">
+      <section
+        className="clubs-section"
+        id="clubs"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.84), rgba(255,255,255,0.84)), url(${cccdBackground})`,
+          backgroundSize: "24%",
+          backgroundPosition: "center 75%",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="clubs-heading">
+          <p className="clubs-heading-eyebrow">
+            As part of student life at StudentHub, our organizations consistently demonstrate
+            fidelity to campus involvement as reflected in their programs, projects, and outreach
+            to every student community on campus.
+          </p>
+          <h2>Explore Student Clubs</h2>
+        </div>
+
         <div className="clubs-layout">
-          <div className="clubs-copy">
-            <div className="clubs-spacer left" aria-hidden="true" />
-            <span>Our Community</span>
-            <h2>Explore Student Clubs</h2>
-            <p>
-              Join clubs, discover your passions, and be part of a community
-              that inspires you.
-            </p>
-            <a href="#clubs" className="btn-primary">
-              View All Clubs <ChevronRight size={17} />
-            </a>
+          <div className="clubs-column clubs-column--left">
+            {clubs.slice(0, 4).map((club) => (
+              <div className="club-item" key={club.name}>
+                <div className={`club-item-icon club-item-icon--${club.accent}`}>
+                  {club.image ? (
+                    <img src={club.image} alt={`${club.name} logo`} />
+                  ) : (
+                    <span>{club.short}</span>
+                  )}
+                </div>
+                <div className="club-item-text">
+                  <h3>{club.short}</h3>
+                  <p>{club.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="clubs-right">
-            <div className="clubs-right-header">
-              <div className="clubs-spacer right" aria-hidden="true" />
-              <span>Most Active Clubs This Year</span>
-              <h3>Top Student Organizations of 2026</h3>
-            </div>
+            {/* Center illustration removed as requested */}
 
-            <div className="clubs-grid">
-              {clubs.map((club) => (
-                <div className="club-card" key={club.name}>
-                  <div className="club-icon">
-                    {club.image && <img src={club.image} alt={`${club.name} logo`} />}
-                  </div>
-                  <h3>{club.name}</h3>
-                  <p>{club.description}</p>
-                  <strong>{club.members}</strong>
+          <div className="clubs-column clubs-column--right">
+            {clubs.slice(4).map((club) => (
+              <div className="club-item" key={club.name}>
+                <div className={`club-item-icon club-item-icon--${club.accent}`}>
+                  {club.image ? (
+                    <img src={club.image} alt={`${club.name} logo`} />
+                  ) : (
+                    <span>{club.short}</span>
+                  )}
                 </div>
-              ))}
-            </div>
+                <div className="club-item-text">
+                  <h3>{club.short}</h3>
+                  <p>{club.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
