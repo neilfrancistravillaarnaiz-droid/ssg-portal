@@ -1,28 +1,18 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Bell,
   Bot,
   CalendarDays,
   FileText,
   GraduationCap,
   Megaphone,
   MessageCircle,
-  Music,
   Printer,
-  Send,
-  ShieldCheck,
   Users,
-  Zap,
-  Code2,
-  Leaf,
-  Camera,
-  Trophy,
   ChevronRight,
   Upload,
   Lock,
 } from "lucide-react";
-
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import ssgLogo from "../../../assets/logos/logo-ssg.mp4";
 import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
 import techedLogo from "../../../assets/logos/TECHED.jpg";
@@ -35,33 +25,6 @@ const stats = [
   { number: "12+", label: "Registered Clubs", icon: GraduationCap },
   { number: "48", label: "Upcoming Events", icon: CalendarDays },
   { number: "120+", label: "Announcements", icon: Megaphone },
-];
-
-const features = [
-  {
-    title: "Real-time Updates",
-    description: "Get the latest news and announcements instantly.",
-    icon: Bell,
-    color: "blue",
-  },
-  {
-    title: "Community Driven",
-    description: "Connect with students and build lasting relationships.",
-    icon: Users,
-    color: "sky",
-  },
-  {
-    title: "Secure & Reliable",
-    description: "Your data and privacy are our top priority.",
-    icon: ShieldCheck,
-    color: "teal",
-  },
-  {
-    title: "Easy to Use",
-    description: "A simple and intuitive platform for everyone.",
-    icon: Zap,
-    color: "orange",
-  },
 ];
 
 const clubs = [
@@ -164,6 +127,29 @@ const forms = [
 ];
 
 export default function LandingPage() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const slides = [
+    {
+      key: "video",
+      title: "StudentHub Experience",
+      subtitle: "Watch our official video logo and discover your student community.",
+      type: "video",
+    },
+    {
+      key: "announcements",
+      title: "Featured Announcements",
+      subtitle: "Stay informed with the latest campus updates.",
+      type: "announcements",
+    },
+    {
+      key: "coming-soon",
+      title: "Coming Soon",
+      subtitle: "Exciting new features and student experiences are on the way.",
+      type: "comingSoon",
+    },
+  ];
+
   return (
     <main className="landing-page">
       <nav className="landing-nav">
@@ -191,7 +177,66 @@ export default function LandingPage() {
       </nav>
 
       <section className="hero" id="home">
-        <video className="hero-video-bg" src={ssgLogo} autoPlay loop muted playsInline preload="auto" />
+        <div className="hero-slider">
+          {slides.map((slide, index) => (
+            <div key={slide.key} className={`hero-slide ${activeSlide === index ? "active" : ""}`}>
+              {slide.type === "video" ? (
+                <div className="hero-video-wrap">
+                  <video className="hero-video-bg" src={ssgLogo} autoPlay loop muted playsInline preload="auto" />
+                </div>
+              ) : slide.type === "announcements" ? (
+                <div className="hero-content-card">
+                  <span className="slide-label">Featured Announcements</span>
+                  <h2>{slide.title}</h2>
+                  <p>{slide.subtitle}</p>
+                  <div className="announcement-list">
+                    {announcements.slice(0, 2).map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <div className="announcement-card" key={item.title}>
+                          <div className="announcement-icon">
+                            <Icon size={20} />
+                          </div>
+                          <div>
+                            <h4>{item.title}</h4>
+                            <p>{item.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div className="hero-content-card">
+                  <span className="slide-label">Coming Soon</span>
+                  <h2>{slide.title}</h2>
+                  <p>{slide.subtitle}</p>
+                  <div className="coming-soon-list">
+                    <div className="coming-card">
+                      <h4>Club Showcase</h4>
+                      <p>New interactive club previews and live event highlights.</p>
+                    </div>
+                    <div className="coming-card">
+                      <h4>Enhanced Chat</h4>
+                      <p>StudentHub AI will soon support faster, smarter campus help.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          <div className="hero-slide-controls">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                className={activeSlide === index ? "active" : ""}
+                onClick={() => setActiveSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="stats-section">
@@ -237,23 +282,16 @@ export default function LandingPage() {
             </div>
 
             <div className="clubs-grid">
-              {clubs.map((club) => {
-                const Icon = club.icon;
-                return (
-                  <div className="club-card" key={club.name}>
-                    <div className="club-icon">
-                      {club.image ? (
-                        <img src={club.image} alt={`${club.name} logo`} />
-                      ) : (
-                        <Icon size={30} />
-                      )}
-                    </div>
-                    <h3>{club.name}</h3>
-                    <p>{club.description}</p>
-                    <strong>{club.members}</strong>
+              {clubs.map((club) => (
+                <div className="club-card" key={club.name}>
+                  <div className="club-icon">
+                    {club.image && <img src={club.image} alt={`${club.name} logo`} />}
                   </div>
-                );
-              })}
+                  <h3>{club.name}</h3>
+                  <p>{club.description}</p>
+                  <strong>{club.members}</strong>
+                </div>
+              ))}
             </div>
           </div>
         </div>

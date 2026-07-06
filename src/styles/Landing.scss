@@ -189,16 +189,174 @@ html {
   display: flex;
   align-items: center;
 
-  .hero-video-bg {
+  .hero-slider {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-slide {
     position: absolute;
     inset: 0;
+    opacity: 0;
+    transition: opacity 350ms ease;
+    display: grid;
+    align-items: start;
+    justify-items: center;
+    padding: 0rem 2rem 10rem;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+    position: relative;
+  }
+
+  .hero-video-wrap {
+    position: relative;
+    width: min(720px, 100%);
+    max-height: 420px;
+    display: grid;
+    place-items: start;
+    margin-top: -8rem;
+  }
+
+  .hero-video-bg {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-width: 720px;
     z-index: 0;
     object-fit: contain;
     object-position: center;
     pointer-events: none;
     background: transparent;
+  }
+
+  .hero-content-card {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    width: 100%;
+    background: rgba($white, 0.95);
+    border: 1px solid rgba($blue, 0.16);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 24px 60px rgba($navy, 0.08);
+  }
+
+  .slide-label {
+    display: inline-flex;
+    color: $blue;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content-card h2 {
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    color: $text-dark;
+    margin-bottom: 1rem;
+  }
+
+  .hero-content-card p {
+    color: $text-mid;
+    line-height: 1.8;
+    margin-bottom: 1.8rem;
+  }
+
+  .announcement-list,
+  .coming-soon-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .announcement-card,
+  .coming-card {
+    background: rgba($blue, 0.04);
+    border: 1px solid rgba($blue, 0.1);
+    border-radius: 18px;
+    padding: 1rem 1.2rem;
+  }
+
+  .announcement-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .announcement-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: rgba($blue, 0.12);
+    color: $blue;
+  }
+
+  .announcement-card h4,
+  .coming-card h4 {
+    margin: 0 0 0.4rem;
+    font-size: 1rem;
+    color: $text-dark;
+  }
+
+  .announcement-card p,
+  .coming-card p {
+    margin: 0;
+    color: $text-mid;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .hero-slide-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .hero-slide-controls button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba($white, 0.65);
+    cursor: pointer;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+
+  .hero-slide-controls button.active {
+    width: 16px;
+    height: 16px;
+    background: $blue;
+    transform: scale(1.1);
+  }
+
+  @include respond-to("md") {
+    .hero {
+      min-height: auto;
+      padding: 0;
+    }
+
+    .hero-slide {
+      padding: 2rem 1rem;
+    }
+
+    .hero-content-card {
+      padding: 2rem;
+    }
+
+    .hero-slide-controls {
+      bottom: 1rem;
+    }
   }
 
   /* Top sky-blue gradient overlay that sits above the video */
