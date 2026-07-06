@@ -25,10 +25,12 @@ html {
 
 /* NAVBAR */
 .landing-nav {
-  background: linear-gradient(135deg, $navy, #08265d);
+  background: #ffffff;
   padding: 1rem 2rem;
   position: relative;
   z-index: 20;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
 
   @include respond-to("md") {
     padding: 1rem 1rem;
@@ -47,7 +49,7 @@ html {
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    color: $white;
+    color: #111827;
     flex-shrink: 0;
 
     h3 {
@@ -99,7 +101,7 @@ html {
     }
 
     a {
-      color: rgba($white, 0.88);
+      color: rgba(17, 24, 39, 0.8);
       font-size: 0.88rem;
       font-weight: 500;
       position: relative;
@@ -159,8 +161,8 @@ html {
   }
 
   .nav-cta {
-    background: $blue;
-    color: $white;
+    background: #ffffff;
+    color: $blue;
     padding: 0.8rem 1.3rem;
     border-radius: 8px;
     display: inline-flex;
@@ -168,10 +170,12 @@ html {
     gap: 0.4rem;
     font-weight: 700;
     font-size: 0.88rem;
-    box-shadow: 0 12px 28px rgba($blue, 0.28);
+    border: 1px solid rgba($blue, 0.2);
+    box-shadow: none;
 
     &:hover {
-      background: #0061e8;
+      background: #f8fbff;
+      border-color: rgba($blue, 0.35);
     }
   }
 }
@@ -179,14 +183,37 @@ html {
 /* HERO */
 .hero {
   min-height: 690px;
-  background:
-    radial-gradient(circle at 85% 30%, rgba($blue, 0.35), transparent 26%),
-    radial-gradient(circle at 70% 20%, rgba($sky, 0.14), transparent 28%),
-    linear-gradient(135deg, $navy 0%, #061a3b 48%, #073272 100%);
+  background: #ffffff;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
+
+  .hero-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+    background: transparent;
+  }
+
+  /* Top sky-blue gradient overlay that sits above the video */
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 45%;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(174, 224, 255, 0.45), rgba(174, 224, 255, 0.18) 40%, transparent 100%);
+    mix-blend-mode: normal;
+  }
 
   .hero-pattern {
     position: absolute;
@@ -197,19 +224,16 @@ html {
     background-size: 42px 42px;
     mask-image: radial-gradient(circle at 75% 40%, black, transparent 60%);
     opacity: 0.8;
+    z-index: 0;
   }
 
-  &::after {
-    content: "";
-    position: absolute;
-    right: -180px;
-    top: 140px;
-    width: 520px;
-    height: 520px;
-    border-radius: 50%;
-    background: rgba($blue, 0.22);
-    filter: blur(20px);
+  /* Ensure hero content sits above the overlay */
+  .hero-inner {
+    position: relative;
+    z-index: 2;
   }
+
+  /* Removed right-side circular gradient overlay */
 
   .hero-inner {
     max-width: 1200px;
@@ -338,28 +362,18 @@ html {
 }
 
 .info-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
   color: $white;
   flex-shrink: 0;
+  background: transparent;
+  box-shadow: none;
 
-  &.blue {
-    background: linear-gradient(135deg, #1c6dff, #0a56d6);
-  }
-
-  &.sky {
-    background: linear-gradient(135deg, #37a3ff, #0b74e8);
-  }
-
-  &.teal {
-    background: linear-gradient(135deg, #21c9b5, #0b8f93);
-  }
-
-  &.orange {
-    background: linear-gradient(135deg, #ff9b22, #ff6f00);
+  svg {
+    color: rgba($white, 0.95);
   }
 }
 
@@ -395,26 +409,44 @@ html {
   .stat-card {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 1rem;
-    border-right: 1px solid rgba($white, 0.25);
+    padding: 1.8rem 1rem 1rem;
+    border-right: 1px solid rgba($white, 0.16);
 
     &:last-child {
       border-right: none;
     }
 
-    svg {
-      color: rgba($white, 0.8);
+    .info-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(2,6,23,0.12);
+    }
+
+    .stat-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
     }
 
     h3 {
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: $white;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: -0.02em;
     }
 
     p {
-      color: rgba($white, 0.72);
-      font-size: 0.85rem;
+      color: rgba($white, 0.88);
+      font-size: 0.95rem;
+      margin: 0;
+      opacity: 0.9;
     }
   }
 }
@@ -531,7 +563,7 @@ html {
   display: grid;
   grid-template-columns: 0.75fr 1.45fr;
   gap: 2.2rem;
-  align-items: center;
+  align-items: start;
 }
 
 .clubs-copy {
@@ -553,6 +585,48 @@ html {
     color: $text-mid;
     line-height: 1.7;
     margin-bottom: 1.4rem;
+  }
+}
+
+.clubs-right {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.4rem;
+}
+
+.clubs-right-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+
+  .clubs-spacer {
+    width: 100%;
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  span {
+    color: $royal;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    color: $text-dark;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  @include respond-to("md") {
+    text-align: left;
+    align-items: flex-start;
   }
 }
 
@@ -596,28 +670,23 @@ html {
 }
 
 .club-icon {
-  width: 58px;
-  height: 58px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   margin: 0 auto;
   display: grid;
   place-items: center;
-  color: $white;
+  background: $white;
+  color: $blue;
+  border: 1px solid rgba($blue, 0.16);
+  overflow: hidden;
 
-  &.navy {
-    background: $navy;
-  }
-
-  &.green {
-    background: #3cb85c;
-  }
-
-  &.purple {
-    background: #6f245e;
-  }
-
-  &.orange {
-    background: #ff8415;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
 }
 
@@ -794,31 +863,49 @@ html {
 
 /* CTA */
 .cta-section {
-  background:
-    radial-gradient(circle at 20% 50%, rgba($sky, 0.22), transparent 30%),
-    linear-gradient(135deg, $royal, #003c9e);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, $royal, #003c9e);
   color: $white;
-  padding: 2.5rem 2rem;
+  padding: 3rem 2rem;
   display: flex;
   justify-content: center;
   gap: 5rem;
   align-items: center;
 
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: radial-gradient(circle at 50% 0, rgba($white, 0.18), transparent 36%);
+    clip-path: ellipse(50% 40% at 50% 0%);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
   h2 {
     font-size: 2rem;
     margin-bottom: 0.4rem;
+    position: relative;
+    z-index: 1;
   }
 
   p {
-    color: rgba($white, 0.82);
+    color: rgba($white, 0.92);
+    position: relative;
+    z-index: 1;
   }
 }
 
 /* FOOTER */
 footer {
-  background: linear-gradient(135deg, $navy, #041126);
-  color: rgba($white, 0.75);
+  background: $white;
+  color: $text-dark;
   padding: 2.2rem 2rem 1rem;
+  border-top: 1px solid $border;
 
   .footer-inner {
     max-width: 1200px;
@@ -830,15 +917,14 @@ footer {
 
   .footer-brand {
     display: flex;
-    gap: 1rem;
-    align-items: flex-start;
+    align-items: center;
 
     .brand-logo {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
+      width: 72px;
+      height: 72px;
+      border-radius: 16px;
       overflow: hidden;
-      background: rgba($white, 0.1);
+      background: rgba($blue, 0.08);
 
       video {
         width: 100%;
@@ -846,38 +932,64 @@ footer {
         object-fit: cover;
       }
     }
+  }
 
-    h3 {
-      color: $white;
-      margin-bottom: 0.35rem;
-    }
+  .footer-nav-group {
+    display: grid;
+    gap: 1.5rem;
+  }
 
-    p {
-      max-width: 360px;
-      font-size: 0.85rem;
-      line-height: 1.65;
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+
+    a {
+      color: $text-dark;
+      font-size: 0.92rem;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 0.35rem;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        border-radius: 999px;
+        background: $sky;
+        transition: width 180ms ease;
+      }
+
+      &:hover::after,
+      &:focus::after {
+        width: 100%;
+      }
     }
   }
 
-  .footer-links {
+  .footer-links-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem;
 
     h4 {
-      color: $white;
+      color: $text-dark;
       font-size: 0.9rem;
       margin-bottom: 0.8rem;
     }
 
     a {
       display: block;
-      color: rgba($white, 0.65);
+      color: $text-dark;
       font-size: 0.8rem;
       margin-bottom: 0.45rem;
 
       &:hover {
-        color: $white;
+        color: $blue;
       }
     }
   }
@@ -952,6 +1064,16 @@ footer {
 
     .stat-card {
       border-right: none;
+      justify-content: center;
+      text-align: center;
+
+      .info-icon {
+        margin: 0 auto;
+      }
+
+      .stat-copy {
+        align-items: center;
+      }
     }
   }
 
@@ -1049,8 +1171,12 @@ footer {
   max-width: 1000px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
+
+  @include respond-to("md") {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-card {

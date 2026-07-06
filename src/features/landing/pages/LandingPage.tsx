@@ -3,11 +3,11 @@ import {
   Bell,
   Bot,
   CalendarDays,
-  ClipboardList,
   FileText,
   GraduationCap,
   Megaphone,
   MessageCircle,
+  Music,
   Printer,
   Send,
   ShieldCheck,
@@ -24,6 +24,10 @@ import {
 
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import ssgLogo from "../../../assets/logos/logo-ssg.mp4";
+import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
+import techedLogo from "../../../assets/logos/TECHED.jpg";
+import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
+import eceaLogo from "../../../assets/logos/ECEA.jpg";
 import "../../../styles/landing.scss";
 
 const stats = [
@@ -62,31 +66,31 @@ const features = [
 
 const clubs = [
   {
-    name: "Coding Club",
-    description: "Empowering students through code.",
-    members: "120 Members",
-    icon: Code2,
+    name: "Creative Visionaries Club",
+    description: "Most active club in creative programming and student showcases.",
+    members: "150 Members",
+    image: creativeVisionariesLogo,
     color: "navy",
   },
   {
-    name: "Environment Club",
-    description: "Building a greener and sustainable campus.",
-    members: "98 Members",
-    icon: Leaf,
+    name: "TechEd Innovators Club",
+    description: "Leading campus tech workshops and innovation challenges.",
+    members: "130 Members",
+    image: techedLogo,
     color: "green",
   },
   {
-    name: "Photography Club",
-    description: "Capturing moments, creating memories.",
-    members: "75 Members",
-    icon: Camera,
+    name: "Udsuhan Dance Club",
+    description: "High-energy performances and regular dance events year-round.",
+    members: "95 Members",
+    image: udsuhanLogo,
     color: "purple",
   },
   {
-    name: "Sports Club",
-    description: "Play hard, train harder, together.",
+    name: "ECEA",
+    description: "Driving academic engagement and campus-wide student initiatives.",
     members: "110 Members",
-    icon: Trophy,
+    image: eceaLogo,
     color: "orange",
   },
 ];
@@ -168,103 +172,26 @@ export default function LandingPage() {
             <div className="brand-logo">
               <video src={ssgLogo} autoPlay loop muted playsInline />
             </div>
-            <div>
-              <h3>StudentHub</h3>
-              <span>Student Services Portal</span>
-            </div>
           </div>
 
           <div className="nav-links">
             <a href="#home" className="active">
               Home
             </a>
-            <a href="#features">About Us</a>
             <a href="#clubs">Clubs</a>
             <a href="#events">Events</a>
             <a href="#announcements">Announcements</a>
-            <a href="#forms">Forms</a>
+            <a href="#forms">Services</a>
           </div>
 
           <Link to="login" className="nav-cta">
-            Get Started <ChevronRight size={17} />
+            Students Hub <ChevronRight size={17} />
           </Link>
         </div>
       </nav>
 
       <section className="hero" id="home">
-        <div className="hero-pattern" />
-
-        <div className="hero-inner">
-          <div className="hero-left">
-            <div className="hero-badge">
-              <ShieldCheck size={14} />
-              Empowering Students
-            </div>
-
-            <h1>
-              Your Campus. <br />
-              Your Voice. <br />
-              <span>Your Future.</span>
-            </h1>
-
-            <p>
-              The official digital platform for student services, organizations,
-              and governance. Stay informed, connected, and involved in building
-              a better campus community.
-            </p>
-
-            <div className="hero-actions">
-              <a href="#features" className="btn-primary">
-                Explore More <ChevronRight size={17} />
-              </a>
-              <a href="#announcements" className="btn-outline">
-                View Announcements
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-right">
-            <a href="#announcements" className="hero-info-card">
-              <div className="info-icon blue">
-                <Megaphone size={23} />
-              </div>
-              <div>
-                <h4>Latest Announcements</h4>
-                <p>Stay updated with important news and reminders.</p>
-              </div>
-            </a>
-
-            <a href="#clubs" className="hero-info-card">
-              <div className="info-icon sky">
-                <Users size={23} />
-              </div>
-              <div>
-                <h4>Active Clubs</h4>
-                <p>Join organizations and discover opportunities.</p>
-              </div>
-            </a>
-
-            <a href="#events" className="hero-info-card">
-              <div className="info-icon teal">
-                <CalendarDays size={23} />
-              </div>
-              <div>
-                <h4>Upcoming Events</h4>
-                <p>Never miss an event that matters to you.</p>
-              </div>
-            </a>
-
-            <a href="#forms" className="hero-info-card">
-              <div className="info-icon orange">
-                <ClipboardList size={23} />
-              </div>
-              <div>
-                <h4>Easy Forms</h4>
-                <p>Submit requests and documents in a few clicks.</p>
-              </div>
-            </a>
-          </div>
-        </div>
+        <video className="hero-video-bg" src={ssgLogo} autoPlay loop muted playsInline preload="auto" />
       </section>
 
       <section className="stats-section">
@@ -274,8 +201,10 @@ export default function LandingPage() {
             const Icon = stat.icon;
             return (
               <div className="stat-card" key={stat.label}>
-                <Icon size={34} />
-                <div>
+                <div className="info-icon" aria-hidden>
+                  <Icon size={20} />
+                </div>
+                <div className="stat-copy">
                   <h3>{stat.number}</h3>
                   <p>{stat.label}</p>
                 </div>
@@ -285,35 +214,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="features-section" id="features">
-        <div className="section-heading center">
-          <span>Why Choose StudentHub</span>
-          <h2>Everything you need in one place</h2>
-          <p>
-            Designed to make your campus life easier, more connected, and more
-            meaningful.
-          </p>
-        </div>
-
-        <div className="features-grid">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <div className="feature-card" key={feature.title}>
-                <div className={`feature-icon ${feature.color}`}>
-                  <Icon size={24} />
-                </div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
       <section className="clubs-section" id="clubs">
         <div className="clubs-layout">
           <div className="clubs-copy">
+            <div className="clubs-spacer left" aria-hidden="true" />
             <span>Our Community</span>
             <h2>Explore Student Clubs</h2>
             <p>
@@ -325,20 +229,32 @@ export default function LandingPage() {
             </a>
           </div>
 
-          <div className="clubs-grid">
-            {clubs.map((club) => {
-              const Icon = club.icon;
-              return (
-                <div className="club-card" key={club.name}>
-                  <div className={`club-icon ${club.color}`}>
-                    <Icon size={30} />
+          <div className="clubs-right">
+            <div className="clubs-right-header">
+              <div className="clubs-spacer right" aria-hidden="true" />
+              <span>Most Active Clubs This Year</span>
+              <h3>Top Student Organizations of 2026</h3>
+            </div>
+
+            <div className="clubs-grid">
+              {clubs.map((club) => {
+                const Icon = club.icon;
+                return (
+                  <div className="club-card" key={club.name}>
+                    <div className="club-icon">
+                      {club.image ? (
+                        <img src={club.image} alt={`${club.name} logo`} />
+                      ) : (
+                        <Icon size={30} />
+                      )}
+                    </div>
+                    <h3>{club.name}</h3>
+                    <p>{club.description}</p>
+                    <strong>{club.members}</strong>
                   </div>
-                  <h3>{club.name}</h3>
-                  <p>{club.description}</p>
-                  <strong>{club.members}</strong>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -394,7 +310,7 @@ export default function LandingPage() {
 
       <section className="forms-section" id="forms">
         <div className="section-heading center">
-          <span>Student Forms</span>
+          <span>Supreme Student Government Services</span>
           <h2>Submit requests online</h2>
           <p>
             Access StudentHub forms for printing services, document submissions,
@@ -442,7 +358,7 @@ export default function LandingPage() {
           </p>
         </div>
         <a href="login" className="btn-outline">
-          Get Started <ChevronRight size={17} />
+          Students Hub <ChevronRight size={17} />
         </a>
       </section>
 
@@ -455,44 +371,41 @@ export default function LandingPage() {
                 <Lock size={16} />
               </span>
             </Link>
-            <div>
-              <h3>StudentHub</h3>
-              <p>
-                The official digital platform for student services,
-                organizations, and governance.
-              </p>
-            </div>
           </div>
 
-          <div className="footer-links">
-            <div>
-              <h4>Quick Links</h4>
+          <div className="footer-nav-group">
+            <div className="footer-nav">
               <a href="#home">Home</a>
               <a href="#features">About Us</a>
               <a href="#clubs">Clubs</a>
               <a href="#events">Events</a>
-            </div>
-
-            <div>
-              <h4>Services</h4>
               <a href="#announcements">Announcements</a>
               <a href="#forms">Forms</a>
               <a href="#chatbot">StudentHub AI</a>
-              <a href="#features">FAQ</a>
             </div>
 
-            <div>
-              <h4>Follow Us</h4>
-              <div className="social-row">
-                <a href="#home" aria-label="Facebook">
-                  <FaFacebookF />
-                </a>
-                <a href="#home" aria-label="Instagram">
-                  <FaInstagram />
-                </a>
-                <a href="#home" aria-label="Message">
-                  <Send size={15} />
-                </a>
+            <div className="footer-links-grid">
+              <div>
+                <h4>Services</h4>
+                <a href="#announcements">Announcements</a>
+                <a href="#forms">Forms</a>
+                <a href="#chatbot">StudentHub AI</a>
+                <a href="#features">FAQ</a>
+              </div>
+
+              <div>
+                <h4>Follow Us</h4>
+                <div className="social-row">
+                  <a href="#home" aria-label="Facebook">
+                    <FaFacebookF />
+                  </a>
+                  <a href="#home" aria-label="Instagram">
+                    <FaInstagram />
+                  </a>
+                  <a href="#home" aria-label="Message">
+                    <Send size={15} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
