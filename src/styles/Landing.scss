@@ -295,6 +295,18 @@ html {
     place-items: center;
     background: rgba($blue, 0.12);
     color: $blue;
+
+    /* make the img exactly the icon size and remove inner padding */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      border-radius: inherit;
+    }
   }
 
   .announcement-card h4,
@@ -730,6 +742,14 @@ html {
   background: $white;
 }
 
+.clubs-divider {
+  height: 40px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba($sky, 0), rgba($sky, 0.12) 35%, rgba($sky, 0.25) 55%, rgba($sky, 0));
+  mask-image: radial-gradient(circle at 50% 0%, transparent 42%, black 60%);
+  margin: 0 0 -1px;
+}
+
 .clubs-heading {
   max-width: 780px;
   margin: 0 auto 3.5rem;
@@ -916,6 +936,17 @@ html {
   display: grid;
   place-items: center;
 
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: inherit;
+  }
+
   &.blue {
     background: #e3f0ff;
     color: $royal;
@@ -956,9 +987,10 @@ html {
   background: $white;
 
   span {
-    color: $text-mid;
+    color: #d32f2f;
     font-size: 0.75rem;
     font-weight: 800;
+    letter-spacing: 0.02em;
   }
 
   strong {
@@ -1024,19 +1056,6 @@ html {
   gap: 5rem;
   align-items: center;
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    background: radial-gradient(circle at 50% 0, rgba($white, 0.18), transparent 36%);
-    clip-path: ellipse(50% 40% at 50% 0%);
-    opacity: 0.45;
-    pointer-events: none;
-  }
-
   h2 {
     font-size: 2rem;
     margin-bottom: 0.4rem;
@@ -1084,6 +1103,76 @@ footer {
       }
     }
   }
+}
+
+.video-feature-section {
+  background: linear-gradient(180deg, #075adf, #0d6ff4);
+  padding: 3rem 2rem;
+  color: $white;
+}
+
+.video-feature-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 460px);
+  gap: 2rem;
+  align-items: center;
+}
+
+.video-feature-copy {
+  span {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    color: rgba($white, 0.9);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+
+  h2 {
+    color: $white;
+    font-size: clamp(2rem, 3.5vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: rgba($white, 0.88);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 520px;
+  }
+
+  .btn-outline {
+    color: $white;
+    border-color: rgba($white, 0.7);
+
+    &:hover {
+      background: rgba($white, 0.1);
+    }
+  }
+}
+
+.video-feature-player {
+  display: grid;
+  place-items: center;
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba($navy, 0.1);
+  background: $text-dark;
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
 
   .footer-nav {
     display: flex;
@@ -1130,7 +1219,6 @@ footer {
     font-size: 0.78rem;
     color: rgba($white, 0.55);
   }
-}
 
 /* FLOATING CHAT */
 .chatbot-fab {

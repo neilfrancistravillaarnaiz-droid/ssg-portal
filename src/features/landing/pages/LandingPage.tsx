@@ -19,7 +19,18 @@ import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
 import techedLogo from "../../../assets/logos/TECHED.jpg";
 import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
 import eceaLogo from "../../../assets/logos/ECEA.jpg";
+import gamaLogo from "../../../assets/logos/gama.jpg";
+import pabulusLogo from "../../../assets/logos/pabulus.jpg";
+import lightLogo from "../../../assets/logos/light.jpg";
+import himigLogo from "../../../assets/logos/himig.jpg";
+import peerLogo from "../../../assets/logos/peer.jpg";
+import asensoLogo from "../../../assets/logos/asenso.jpg";
+import sibyaLogo from "../../../assets/logos/sibya.jpg";
+import checkmateLogo from "../../../assets/logos/checkmate.jpg";
+import rcyLogo from "../../../assets/logos/rcy.jpg";
+import ccdLogo from "../../../assets/logos/ccd.jpg";
 import cccdBackground from "../../../assets/logos/CCCD.jpg";
+import remindersImg from "../../../assets/logos/reminders.svg";
 import "../../../styles/landing.scss";
 
 const stats = [
@@ -63,34 +74,99 @@ const clubs = [
     accent: "silver",
   },
   {
-    name: "Media Makers Guild",
-    short: "MMG",
-    description: "Campus media, storytelling, and broadcast production.",
+    name: "GAMA",
+    short: "GAMA",
+    description: "Arts Club",
     members: "125 Members",
+    image: gamaLogo,
     accent: "navy",
   },
   {
-    name: "Debate & Public Speaking Club",
-    short: "DPSC",
-    description: "Competitive debates, forums, and speaker series.",
+    name: "Pabulus",
+    short: "Pabulus",
+    description: "Indigenous People Club",
     members: "90 Members",
+    image: pabulusLogo,
     accent: "sky",
   },
   {
-    name: "Eco Action Circle",
-    short: "EAC",
-    description: "Sustainability drives, cleanups, and environmental advocacy.",
+    name: "Light Bearers",
+    short: "Light Bearers",
+    description: "Campus Ministry",
     members: "80 Members",
+    image: lightLogo,
     accent: "gold",
   },
   {
-    name: "Volunteer Campus Crew",
-    short: "VCC",
-    description: "Student outreach, service events, and community support.",
+    name: "Himig Kolehiyo",
+    short: "Himig Kolehiyo",
+    description: "Music Club",
     members: "105 Members",
+    image: himigLogo,
     accent: "silver",
   },
+  {
+    name: "Peer Facilitator Guild",
+    short: "Peer Facilitators Guild",
+    description: "Peer Facilitators Club",
+    members: "115 Members",
+    image: peerLogo,
+    accent: "navy",
+  },
+  {
+    name: "Asenso Kolehiyo",
+    short: "Asenso Kolehiyo",
+    description: "Entrepreneurship Club",
+    members: "95 Members",
+    image: asensoLogo,
+    accent: "sky",
+  },
+  {
+    name: "SIBYA",
+    short: "SIBYA",
+    description: "School Publication",
+    members: "120 Members",
+    image: sibyaLogo,
+    accent: "gold",
+  },
+  {
+    name: "Checkmate",
+    short: "Checkmate",
+    description: "Chess Club",
+    members: "88 Members",
+    image: checkmateLogo,
+    accent: "silver",
+  },
+  {
+    name: "Redcross Youth",
+    short: "Redcross Youth",
+    description: "Emegergency Response Club",
+    members: "98 Members",
+    image: rcyLogo,
+    accent: "navy",
+  },
+  {
+    name: "Bibliophile",
+    short: "Bibliophile",
+    description: "Book Club",
+    members: "106 Members",
+    image: ccdLogo,
+    accent: "sky",
+  },
 ];
+
+const featuredVideo = {
+  title: "StudentHub Highlight",
+  subtitle: "Watch our latest campus update or event highlight.",
+  description:
+    "Share your YouTube video link below and this section will embed the video directly on the landing page.",
+  youtubeLink: "https://www.youtube.com/watch?v=f1plxhIiAKg",
+};
+
+function getYouTubeEmbedUrl(url: string) {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]+)/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+}
 
 const announcements = [
   {
@@ -225,11 +301,10 @@ export default function LandingPage() {
                   <p>{slide.subtitle}</p>
                   <div className="announcement-list">
                     {announcements.slice(0, 2).map((item) => {
-                      const Icon = item.icon;
                       return (
                         <div className="announcement-card" key={item.title}>
                           <div className="announcement-icon">
-                            <Icon size={20} />
+                            <img src={remindersImg} alt="reminder" />
                           </div>
                           <div>
                             <h4>{item.title}</h4>
@@ -322,7 +397,7 @@ export default function LandingPage() {
 
         <div className="clubs-layout">
           <div className="clubs-column clubs-column--left">
-            {clubs.slice(0, 4).map((club) => (
+            {clubs.slice(0, 7).map((club) => (
               <div className="club-item" key={club.name}>
                 <div className={`club-item-icon club-item-icon--${club.accent}`}>
                   {club.image ? (
@@ -342,7 +417,7 @@ export default function LandingPage() {
             {/* Center illustration removed as requested */}
 
           <div className="clubs-column clubs-column--right">
-            {clubs.slice(4).map((club) => (
+            {clubs.slice(7, 14).map((club) => (
               <div className="club-item" key={club.name}>
                 <div className={`club-item-icon club-item-icon--${club.accent}`}>
                   {club.image ? (
@@ -361,6 +436,30 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section className="video-feature-section">
+        <div className="video-feature-inner">
+          <div className="video-feature-copy">
+            <span>Featured Video</span>
+            <h2>{featuredVideo.title}</h2>
+            <p>{featuredVideo.description}</p>
+            <a href={featuredVideo.youtubeLink} className="btn-outline" target="_blank" rel="noreferrer">
+              Open on YouTube
+            </a>
+          </div>
+
+          <div className="video-feature-player">
+            <div className="video-frame">
+              <iframe
+                src={getYouTubeEmbedUrl(featuredVideo.youtubeLink)}
+                title={featuredVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="updates-section">
         <div className="updates-grid">
           <div className="updates-card" id="announcements">
@@ -370,11 +469,10 @@ export default function LandingPage() {
             </div>
 
             {announcements.map((item) => {
-              const Icon = item.icon;
               return (
                 <div className="announcement-item" key={item.title}>
                   <div className={`update-icon ${item.color}`}>
-                    <Icon size={21} />
+                    <img src={remindersImg} alt="reminder" />
                   </div>
                   <div>
                     <h4>{item.title}</h4>
