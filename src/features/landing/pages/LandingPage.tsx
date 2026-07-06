@@ -301,7 +301,7 @@ export default function LandingPage() {
                   <p>{event.time}</p>
                   <small>{event.venue}</small>
                 </div>
-                <button>RSVP</button>
+                <button>View Details</button>
               </div>
             ))}
           </div>
@@ -373,42 +373,14 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <div className="footer-nav-group">
-            <div className="footer-nav">
-              <a href="#home">Home</a>
-              <a href="#features">About Us</a>
-              <a href="#clubs">Clubs</a>
-              <a href="#events">Events</a>
-              <a href="#announcements">Announcements</a>
-              <a href="#forms">Forms</a>
-              <a href="#chatbot">StudentHub AI</a>
-            </div>
-
-            <div className="footer-links-grid">
-              <div>
-                <h4>Services</h4>
-                <a href="#announcements">Announcements</a>
-                <a href="#forms">Forms</a>
-                <a href="#chatbot">StudentHub AI</a>
-                <a href="#features">FAQ</a>
-              </div>
-
-              <div>
-                <h4>Follow Us</h4>
-                <div className="social-row">
-                  <a href="#home" aria-label="Facebook">
-                    <FaFacebookF />
-                  </a>
-                  <a href="#home" aria-label="Instagram">
-                    <FaInstagram />
-                  </a>
-                  <a href="#home" aria-label="Message">
-                    <Send size={15} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+          <nav className="footer-nav">
+            <a href="#home">Home</a>
+            <a href="#clubs">Clubs</a>
+            <a href="#events">Events</a>
+            <a href="#announcements">Announcements</a>
+            <a href="#forms">Forms</a>
+            <a href="#chatbot">StudentHub AI</a>
+          </nav>
         </div>
 
         <div className="footer-bottom">
