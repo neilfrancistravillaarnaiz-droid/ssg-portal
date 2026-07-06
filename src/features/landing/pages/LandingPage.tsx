@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import {
   Bot,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   FileText,
   GraduationCap,
   Megaphone,
   MessageCircle,
   Printer,
   Users,
-  ChevronRight,
   Upload,
   Lock,
 } from "lucide-react";
@@ -227,14 +228,22 @@ export default function LandingPage() {
           ))}
 
           <div className="hero-slide-controls">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                className={activeSlide === index ? "active" : ""}
-                onClick={() => setActiveSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+            <button
+              type="button"
+              className="hero-slide-control prev"
+              onClick={() => setActiveSlide((prev) => (prev - 1 + slides.length) % slides.length)}
+              aria-label="Previous slide"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              className="hero-slide-control next"
+              onClick={() => setActiveSlide((prev) => (prev + 1) % slides.length)}
+              aria-label="Next slide"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
         </div>
       </section>

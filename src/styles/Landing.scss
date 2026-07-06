@@ -313,31 +313,47 @@ html {
   }
 
   .hero-slide-controls {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
     position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    pointer-events: none;
     z-index: 2;
   }
 
-  .hero-slide-controls button {
-    width: 12px;
-    height: 12px;
+  .hero-slide-control {
+    pointer-events: all;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: none;
-    background: rgba($white, 0.65);
+    background: rgba($white, 0.92);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 14px 30px rgba($navy, 0.12);
     cursor: pointer;
     transition: transform 160ms ease, background 160ms ease;
+    color: $text-dark;
   }
 
-  .hero-slide-controls button.active {
-    width: 16px;
-    height: 16px;
-    background: $blue;
-    transform: scale(1.1);
+  .hero-slide-control:hover {
+    background: rgba($white, 1);
+    transform: translateY(-1px);
+  }
+
+  .hero-slide-control svg {
+    display: block;
+  }
+
+  .hero-slide-controls button.prev,
+  .hero-slide-controls button.next {
+    pointer-events: all;
   }
 
   @include respond-to("md") {
