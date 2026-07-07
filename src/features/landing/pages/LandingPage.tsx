@@ -30,7 +30,7 @@ import checkmateLogo from "../../../assets/logos/checkmate.jpg";
 import rcyLogo from "../../../assets/logos/rcy.jpg";
 import ccdLogo from "../../../assets/logos/ccd.jpg";
 import cccdBackground from "../../../assets/logos/CCCD.jpg";
-import remindersImg from "../../../assets/logos/reminders.svg";
+import slide2Img from "../../../assets/logos/slide2.jpg";
 import "../../../styles/landing.scss";
 
 const stats = [
@@ -247,10 +247,11 @@ export default function LandingPage() {
       type: "video",
     },
     {
-      key: "announcements",
-      title: "Featured Announcements",
-      subtitle: "Stay informed with the latest campus updates.",
-      type: "announcements",
+      key: "slide2",
+      title: "StudentHub Experience",
+      subtitle: "Discover the student portal background.",
+      type: "image",
+      image: slide2Img,
     },
     {
       key: "coming-soon",
@@ -289,22 +290,35 @@ export default function LandingPage() {
       <section className="hero" id="home">
         <div className="hero-slider">
           {slides.map((slide, index) => (
-            <div key={slide.key} className={`hero-slide ${activeSlide === index ? "active" : ""}`}>
+            <div
+              key={slide.key}
+              className={`hero-slide ${activeSlide === index ? "active" : ""} ${slide.type === "image" ? "hero-image-slide" : ""}`}
+            >
               {slide.type === "video" ? (
                 <div className="hero-video-wrap">
                   <video className="hero-video-bg" src={ssgLogo} autoPlay loop muted playsInline preload="auto" />
                 </div>
+              ) : slide.type === "image" ? (
+                <div className="hero-slide-image-wrap">
+                  <img className="hero-slide-img" src={slide.image} alt="Slide content" />
+                </div>
               ) : slide.type === "announcements" ? (
-                <div className="hero-content-card">
-                  <span className="slide-label">Featured Announcements</span>
-                  <h2>{slide.title}</h2>
-                  <p>{slide.subtitle}</p>
-                  <div className="announcement-list">
+                <>
+                  {slide.image && (
+                    <div className="hero-slide-image-wrap">
+                      <img className="hero-slide-bg" src={slide.image} alt="Featured announcement background" />
+                    </div>
+                  )}
+                  <div className="hero-content-card">
+                    <span className="slide-label">Featured Announcements</span>
+                    <h2>{slide.title}</h2>
+                    <p>{slide.subtitle}</p>
+                    <div className="announcement-list">
                     {announcements.slice(0, 2).map((item) => {
                       return (
                         <div className="announcement-card" key={item.title}>
                           <div className="announcement-icon">
-                            <img src={remindersImg} alt="reminder" />
+                            {slide.type === "announcements" ? <item.icon size={20} /> : null}
                           </div>
                           <div>
                             <h4>{item.title}</h4>
@@ -315,6 +329,7 @@ export default function LandingPage() {
                     })}
                   </div>
                 </div>
+              </>
               ) : (
                 <div className="hero-content-card">
                   <span className="slide-label">Coming Soon</span>
@@ -381,8 +396,8 @@ export default function LandingPage() {
         id="clubs"
         style={{
           backgroundImage: `linear-gradient(rgba(255,255,255,0.84), rgba(255,255,255,0.84)), url(${cccdBackground})`,
-          backgroundSize: "24%",
-          backgroundPosition: "center 75%",
+          backgroundSize: "38%",
+          backgroundPosition: "center 62%",
           backgroundRepeat: "no-repeat",
         }}
       >
@@ -472,7 +487,7 @@ export default function LandingPage() {
               return (
                 <div className="announcement-item" key={item.title}>
                   <div className={`update-icon ${item.color}`}>
-                    <img src={remindersImg} alt="reminder" />
+                    {item.icon && <item.icon size={20} />}
                   </div>
                   <div>
                     <h4>{item.title}</h4>
