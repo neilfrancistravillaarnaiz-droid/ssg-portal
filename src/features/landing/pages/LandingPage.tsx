@@ -15,6 +15,7 @@ import {
   Lock,
 } from "lucide-react";
 import ssgLogo from "../../../assets/logos/logo-ssg.mp4";
+import cloudsVideo from "../../../assets/logos/clouds2.mp4";
 import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
 import techedLogo from "../../../assets/logos/TECHED.jpg";
 import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
@@ -523,45 +524,58 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="forms-section" id="forms">
-        <div className="section-heading center">
-          <span>Supreme Student Government Services</span>
-          <h2>Submit requests online</h2>
-          <p>
-            Access StudentHub forms for printing services, document submissions,
-            feedback, sanction appeals, and organization-related requests.
-          </p>
-        </div>
+      <section className="forms-visual-block" id="forms">
+        <video
+          className="forms-video-bg"
+          src={cloudsVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
 
-        <div className="forms-grid">
-          {forms.map((form) => {
-            const Icon = form.icon;
-            return (
-              <div className="form-card" key={form.title}>
-                <Icon size={28} />
-                <h3>{form.title}</h3>
-                <p>{form.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+        <div className="forms-section">
+          <div className="section-heading center">
+            <span>Supreme Student Government Services</span>
+            <h2>Submit requests online</h2>
+            <p>
+              Access StudentHub forms for printing services, document submissions,
+              feedback, sanction appeals, and organization-related requests.
+            </p>
+          </div>
 
-      <section className="assistant-banner" id="chatbot">
-        <div className="assistant-visual">
-          <Bot size={64} />
+          <div className="forms-grid">
+            {forms.map((form) => {
+              const Icon = form.icon;
+              return (
+                <div className="form-card" key={form.title}>
+                  <Icon size={28} />
+                  <h3>{form.title}</h3>
+                  <p>{form.description}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="assistant-banner" id="chatbot">
+            <div className="assistant-visual">
+              <Bot size={64} />
+            </div>
+            <div>
+              <h2>Need help? Ask StudentHub Assistant</h2>
+              <p>
+                Our AI-powered assistant is here to help you with questions and
+                campus information.
+              </p>
+            </div>
+            <a href="#chatbot" className="btn-primary">
+              <MessageCircle size={17} />
+              Chat Now
+            </a>
+          </div>
         </div>
-        <div>
-          <h2>Need help? Ask StudentHub Assistant</h2>
-          <p>
-            Our AI-powered assistant is here to help you with questions and
-            campus information.
-          </p>
-        </div>
-        <a href="#chatbot" className="btn-primary">
-          <MessageCircle size={17} />
-          Chat Now
-        </a>
       </section>
 
       <section className="cta-section">

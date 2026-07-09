@@ -1381,12 +1381,39 @@ footer {
     }
   }
 }
+.forms-visual-block {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(180deg, #f4f9ff, #ffffff);
+}
+
+.forms-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.16;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .forms-section {
+  position: relative;
+  z-index: 1;
   padding: 5rem 2rem;
   background:
     radial-gradient(circle at 15% 15%, rgba($sky, 0.14), transparent 26%),
-    linear-gradient(180deg, #f4f9ff, #ffffff);
+    transparent;
 }
+
+.forms-section .assistant-banner {
+  margin-top: 4rem;
+}
+
 
 .forms-grid {
   max-width: 1000px;

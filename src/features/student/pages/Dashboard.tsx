@@ -3,11 +3,9 @@ import { Link } from "react-router-dom";
 import {
   CalendarDays,
   Megaphone,
-  Users,
   FileText,
   Printer,
   ArrowRight,
-  ShieldAlert,
   Bot,
   BookOpen,
   CheckSquare2,
@@ -74,248 +72,198 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <div className="student-info-banner">
-        <div className="student-avatar">
-          {student?.first_name?.charAt(0) || "S"}
-          {student?.last_name?.charAt(0) || ""}
-        </div>
-
-        <div>
-          <h2>Welcome back, {student?.first_name || "Student"}!</h2>
-          <p>
-            {student?.program || "Student Program"} •{" "}
-            {student?.year_level || "Year Level"} •{" "}
-            {student?.section || "Section"}
-          </p>
-        </div>
-      </div>
-
-      <div className="dashboard-cards">
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <Megaphone size={24} />
+      <div className="creative-grid">
+        {/* Large Hero Card */}
+        <div className="grid-card hero-card">
+          <div className="hero-content">
+            <h2>Ready to achieve greatness?</h2>
+            <p>Track your progress, manage requests, and stay connected with campus life.</p>
+            <Link to="/student/events">
+              <button className="hero-btn">Explore Opportunities <ArrowRight size={16} /></button>
+            </Link>
           </div>
-          <div>
-            <h3>12</h3>
+        </div>
+
+        {/* Profile Card */}
+        <div className="grid-card profile-card">
+          <div className="profile-inner">
+            <div className="student-avatar-large">
+              {student?.first_name?.charAt(0) || "S"}
+              {student?.last_name?.charAt(0) || ""}
+            </div>
+            <h3>{student?.first_name || "Student"}</h3>
+            <p>{student?.program || "Program"}</p>
+            <span className="status-badge">Active</span>
+          </div>
+        </div>
+
+        {/* Key Metrics Grid */}
+        <div className="grid-card metric-card announcements">
+          <div className="metric-icon">
+            <Megaphone size={28} />
+          </div>
+          <div className="metric-content">
+            <h4>12</h4>
             <p>Announcements</p>
-            <span>Latest campus updates</span>
           </div>
         </div>
 
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <CalendarDays size={24} />
+        <div className="grid-card metric-card events">
+          <div className="metric-icon">
+            <CalendarDays size={28} />
           </div>
-          <div>
-            <h3>5</h3>
+          <div className="metric-content">
+            <h4>5</h4>
             <p>Upcoming Events</p>
-            <span>This month</span>
           </div>
         </div>
 
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <BookOpen size={24} />
+        <div className="grid-card metric-card exams">
+          <div className="metric-icon">
+            <BookOpen size={28} />
           </div>
-          <div>
-            <h3>3</h3>
+          <div className="metric-content">
+            <h4>3</h4>
             <p>Exam Schedule</p>
-            <span>Next tests and venues</span>
           </div>
         </div>
 
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <CheckSquare2 size={24} />
-          </div>
-          <div>
-            <h3>2</h3>
-            <p>Attendance</p>
-            <span>Sessions marked today</span>
-          </div>
-        </div>
-
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <FileText size={24} />
-          </div>
-          <div>
-            <h3>2</h3>
-            <p>Pending Requests</p>
-            <span>Printing / forms</span>
-          </div>
-        </div>
-
-        <div className="dash-card">
-          <div className="dash-card-icon">
-            <ShieldAlert size={24} />
-          </div>
-          <div>
-            <h3>0</h3>
-            <p>Active Sanctions</p>
-            <span>Good standing</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="dashboard-grid">
-        <div className="dashboard-panel attendance-panel">
+        {/* Attendance Overview - Large */}
+        <div className="grid-card attendance-card large">
           <div className="panel-header">
             <h2>Attendance Overview</h2>
             <Link to="/student/attendance">View Details</Link>
           </div>
-
-          <div className="attendance-summary">
-            <div>
-              <h3>{attendanceRate}%</h3>
-              <p>Attendance Rate</p>
+          <div className="attendance-visual">
+            <div className="progress-ring">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" stroke="#e0e0e0" strokeWidth="8" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="54"
+                  fill="none"
+                  stroke="url(#gradient)"
+                  strokeWidth="8"
+                  strokeDasharray={`${(attendanceRate / 100) * 339.3} 339.3`}
+                />
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: "#075adf", stopOpacity: 1 }} />
+                    <stop offset="100%" style={{ stopColor: "#1e96f3", stopOpacity: 1 }} />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="progress-text">{attendanceRate}%</span>
             </div>
-            <div>
-              <h3>{missedSessions}</h3>
-              <p>Missed Sessions</p>
-            </div>
-            <div>
-              <h3>{examCountdown}</h3>
-              <p>Next Exam In</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="dashboard-panel">
-          <div className="panel-header">
-            <h2>Recent Announcements</h2>
-            <Link to="/student/announcements">View All</Link>
-          </div>
-
-          <div className="activity-list">
-            <div className="activity-item">
-              <div className="activity-dot"></div>
-              <div>
-                <strong>SSG General Assembly</strong>
-                <p>All students are encouraged to attend.</p>
+            <div className="attendance-stats">
+              <div className="stat">
+                <strong>Missed Sessions</strong>
+                <p>{missedSessions}</p>
               </div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-dot"></div>
-              <div>
-                <strong>Printing Service Available</strong>
-                <p>You can now submit print requests online.</p>
-              </div>
-            </div>
-
-            <div className="activity-item">
-              <div className="activity-dot"></div>
-              <div>
-                <strong>Club Document Submission</strong>
-                <p>Club presidents may upload CBLs and documents.</p>
+              <div className="stat">
+                <strong>Next Exam In</strong>
+                <p>{examCountdown}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="dashboard-panel">
+        {/* Quick Actions */}
+        <div className="grid-card actions-card large">
           <div className="panel-header">
             <h2>Quick Actions</h2>
           </div>
-
-          <div className="quick-actions">
+          <div className="actions-grid">
             <Link to="/student/printing">
-              <button>
+              <div className="action-btn">
                 <Printer size={20} />
-                Request Printing
-                <ArrowRight size={18} />
-              </button>
+                <span>Print</span>
+              </div>
             </Link>
-
             <Link to="/student/forms">
-              <button>
+              <div className="action-btn">
                 <ClipboardList size={20} />
-                Student Forms
-               <ArrowRight size={18} />
-                </button>
+                <span>Forms</span>
+              </div>
             </Link>
-
             <Link to="/student/feedback">
-              <button>
+              <div className="action-btn">
                 <FileText size={20} />
-                Send Feedback
-                <ArrowRight size={18} />
-              </button>
+                <span>Feedback</span>
+              </div>
             </Link>
-
             <Link to="/student/events">
-              <button>
+              <div className="action-btn">
                 <CalendarDays size={20} />
-                View Events
-                <ArrowRight size={18} />
-              </button>
+                <span>Events</span>
+              </div>
             </Link>
-
             <Link to="/student/exam-schedule">
-              <button>
+              <div className="action-btn">
                 <BookOpen size={20} />
-                Exam Schedule
-                <ArrowRight size={18} />
-              </button>
+                <span>Exams</span>
+              </div>
             </Link>
-
             <Link to="/student/attendance">
-              <button>
+              <div className="action-btn">
                 <CheckSquare2 size={20} />
-                Take Attendance
-                <ArrowRight size={18} />
-              </button>
-            </Link>
-
-            <Link to="/student/organizations">
-              <button>
-                <Users size={20} />
-                Browse Clubs
-                <ArrowRight size={18} />
-              </button>
+                <span>Attendance</span>
+              </div>
             </Link>
           </div>
         </div>
-      </div>
 
-      <div className="dashboard-grid second-row">
-        <div className="dashboard-panel">
+        {/* Recent Announcements */}
+        <div className="grid-card announcements-card large">
           <div className="panel-header">
-            <h2>Student Status</h2>
-            <Link to="/student/profile">View Profile</Link>
+            <h2>Latest Updates</h2>
+            <Link to="/student/announcements">View All</Link>
           </div>
-
-          <div className="status-summary">
-            <div className="status-summary-icon">
-              <CheckCircle2 size={24} />
+          <div className="updates-list">
+            <div className="update-item">
+              <div className="update-dot"></div>
+              <div>
+                <strong>SSG General Assembly</strong>
+                <p>All students are encouraged to attend tomorrow at 2 PM.</p>
+              </div>
             </div>
-
-            <div>
-              <h3>Good Standing</h3>
-              <p>
-                You currently have no active sanctions or unresolved student
-                concerns.
-              </p>
+            <div className="update-item">
+              <div className="update-dot"></div>
+              <div>
+                <strong>Printing Service Available</strong>
+                <p>You can now submit print requests online through StudentHub.</p>
+              </div>
+            </div>
+            <div className="update-item">
+              <div className="update-dot"></div>
+              <div>
+                <strong>Club Document Submission</strong>
+                <p>Club presidents may upload CBLs and documents this week.</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="dashboard-panel ai-panel">
-          <div>
-            <h2>Need help?</h2>
-            <p>
-              Ask the StudentHub AI Assistant about events, sanctions, printing,
-              clubs, and services.
-            </p>
+        {/* Student Status */}
+        <div className="grid-card status-card">
+          <div className="status-icon">
+            <CheckCircle2 size={32} />
           </div>
+          <h3>Good Standing</h3>
+          <p>No active sanctions</p>
+        </div>
 
-          <Link to="/student/assistant">
-            <button className="ai-btn">
-              <Bot size={18} />
-              Ask AI Assistant
-            </button>
-          </Link>
+        {/* AI Assistant */}
+        <div className="grid-card ai-card">
+          <div className="ai-content">
+            <Bot size={40} />
+            <h3>Need Help?</h3>
+            <p>Ask AI Assistant</p>
+            <Link to="/student/assistant">
+              <button className="ai-btn">Start Chat <ArrowRight size={14} /></button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
