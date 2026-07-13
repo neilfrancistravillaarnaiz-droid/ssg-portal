@@ -30,8 +30,14 @@ import sibyaLogo from "../../../assets/logos/sibya.jpg";
 import checkmateLogo from "../../../assets/logos/checkmate.jpg";
 import rcyLogo from "../../../assets/logos/rcy.jpg";
 import ccdLogo from "../../../assets/logos/ccd.jpg";
+import tshirtVar1 from "../../../assets/logos/tshirt_var1.png";
+import tshirtVar2 from "../../../assets/logos/tshirt_var2.png";
+import toteVar1 from "../../../assets/logos/lote_var1.png";
+import toteVar2 from "../../../assets/logos/lote_var2.png";
+import ccdianMug from "../../../assets/logos/mug.png";
 import cccdBackground from "../../../assets/logos/CCCD.jpg";
 import slide2Img from "../../../assets/logos/slide2.jpg";
+import slide3Img from "../../../assets/logos/slide3.jpg";
 import "../../../styles/landing.scss";
 
 const stats = [
@@ -219,6 +225,135 @@ const events = [
   },
 ];
 
+type MerchVariant = {
+  title: string;
+  color: string;
+  image: string;
+};
+
+type MerchItem = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  price: string;
+  image?: string;
+  variants?: MerchVariant[];
+  variantLabel?: string;
+  outOfStock?: boolean;
+};
+
+const merchItems: MerchItem[] = [
+  {
+    id: "tshirt",
+    title: "CCDian Tshirt",
+    category: "Apparel",
+    description: "Official CCDian tee in white or green, made with soft breathable cotton.",
+    price: "₱650",
+    outOfStock: true,
+    variants: [
+      {
+        title: "White",
+        color: "#ffffff",
+        image: tshirtVar1,
+      },
+      {
+        title: "Green",
+        color: "#1e7f42",
+        image: tshirtVar2,
+      },
+    ],
+  },
+  {
+    id: "tote",
+    title: "CCDian Tote Bag",
+    category: "Accessories",
+    description: "Durable canvas tote bag for school essentials, available in two styles.",
+    price: "₱420",
+    outOfStock: true,
+    variantLabel: "Choose variation",
+    variants: [
+      {
+        title: "Style 1",
+        color: "#f8f5ef",
+        image: toteVar1,
+      },
+      {
+        title: "Style 2",
+        color: "#ebf5e4",
+        image: toteVar2,
+      },
+    ],
+  },
+  {
+    id: "mug",
+    title: "CCDian Mug",
+    category: "Drinkware",
+    description: "Ceramic mug featuring the CCDian logo for your favorite hot drink.",
+    price: "₱320",
+    outOfStock: true,
+    variantLabel: "Choose variation",
+    variants: [
+      {
+        title: "Classic",
+        color: "#f3f4f6",
+        image: ccdianMug,
+      },
+    ],
+  },
+];
+
+function MerchCard({ item }: { item: MerchItem }) {
+  const hasVariants = Boolean(item.variants?.length);
+  const [activeVariantIndex, setActiveVariantIndex] = useState(0);
+  const activeImage = hasVariants ? item.variants![activeVariantIndex].image : item.image;
+
+  return (
+    <div className="merch-card">
+      <div className="merch-card-image merch-card-image--product">
+        {activeImage ? (
+          <img src={activeImage} alt={item.title} loading="lazy" />
+        ) : (
+          <span>{item.title}</span>
+        )}
+      </div>
+      <div className="merch-card-copy">
+        <span>{item.category}</span>
+        <h4>{item.title}</h4>
+        <p>{item.description}</p>
+
+        {hasVariants && (
+          <div className="merch-variants">
+            <strong>{item.variantLabel ?? "Choose a color"}</strong>
+            <div className="variant-list">
+              {item.variants!.map((variant, index) => (
+                <button
+                  type="button"
+                  key={variant.title}
+                  className={`variant-circle ${index === activeVariantIndex ? "active" : ""}`}
+                  style={{
+                    backgroundColor: variant.color,
+                    borderColor: variant.color === "#ffffff" ? "#d1d5db" : variant.color,
+                  }}
+                  onClick={() => setActiveVariantIndex(index)}
+                  aria-label={`${item.title} ${variant.title}`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="merch-card-footer">
+          <strong>{item.price}</strong>
+          <button className="btn-primary" type="button" disabled={item.outOfStock}>
+            {item.outOfStock ? "Out of stock" : "Pre-order"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const forms = [
   {
     title: "Printing Request",
@@ -255,10 +390,11 @@ export default function LandingPage() {
       image: slide2Img,
     },
     {
-      key: "coming-soon",
-      title: "Coming Soon",
-      subtitle: "Exciting new features and student experiences are on the way.",
-      type: "comingSoon",
+      key: "slide3",
+      title: "StudentHub Visual",
+      subtitle: "Enjoy the third hero slide for the student portal.",
+      type: "image",
+      image: slide3Img,
     },
   ];
 
@@ -519,6 +655,21 @@ export default function LandingPage() {
                 </div>
                 <button>View Details</button>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="merch-section">
+        <div className="merch-inner">
+          <div className="merch-header">
+            <span>School Merch</span>
+            <h3>Official campus gear for students and supporters</h3>
+            <p>Browse the CCDian merchandise collection with selectable color and style previews.</p>
+          </div>
+          <div className="merch-grid">
+            {merchItems.map((item) => (
+              <MerchCard key={item.id} item={item} />
             ))}
           </div>
         </div>
