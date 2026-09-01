@@ -15,7 +15,7 @@ import {
   Lock,
 } from "lucide-react";
 import ssgLogo from "../../../assets/logos/logo-ssg.mp4";
-import cloudsVideo from "../../../assets/logos/clouds2.mp4";
+import cloudsVideo from "../../../assets/logos/Aquaintance-2026.mp4";
 import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
 import techedLogo from "../../../assets/logos/TECHED.jpg";
 import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
