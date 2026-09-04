@@ -418,9 +418,14 @@ export default function LandingPage() {
             <a href="#forms">Services</a>
           </div>
 
-          <Link to="login" className="nav-cta">
-            Students Hub <ChevronRight size={17} />
-          </Link>
+          <div className="nav-actions">
+            <Link to="/student/dashboard" className="nav-preview-link">
+              Preview Dashboard
+            </Link>
+            <Link to="/login" className="nav-cta">
+              Students Hub <ChevronRight size={17} />
+            </Link>
+          </div>
         </div>
       </nav>
 

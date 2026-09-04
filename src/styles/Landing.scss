@@ -127,6 +127,17 @@ html {
     gap: 0.75rem;
   }
 
+  .nav-preview-link {
+    color: $blue;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    &:hover {
+      color: $sky;
+    }
+  }
+
   .brand-logo {
     position: relative;
     display: inline-grid;
@@ -1509,6 +1520,14 @@ footer {
     .nav-cta {
       padding: 0.7rem 0.9rem;
       font-size: 0.78rem;
+    }
+
+    .nav-actions {
+      gap: 0.5rem;
+    }
+
+    .nav-preview-link {
+      font-size: 0.74rem;
     }
   }
 
