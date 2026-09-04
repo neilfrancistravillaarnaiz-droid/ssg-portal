@@ -1,9 +1,33 @@
 import { useEffect, useState } from "react";
-import { Bell, Search, UserCircle2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  Bell,
+  CalendarDays,
+  CheckSquare2,
+  FileText,
+  LayoutDashboard,
+  Megaphone,
+  BookOpen,
+  Printer,
+  Search,
+  UserCircle2,
+  Users,
+} from "lucide-react";
 import SearchModal from "./SearchModal";
 import NotificationDropdown from "./NotificationDropdown";
 import ProfileDropdown from "./ProfileDropdown";
 import { supabase } from "../../../lib/supabase";
+
+const dashboardNavigation = [
+  { title: "Dashboard", icon: LayoutDashboard, path: "/student/dashboard" },
+  { title: "Announcements", icon: Megaphone, path: "/student/announcements" },
+  { title: "Events", icon: CalendarDays, path: "/student/events" },
+  { title: "Exam Schedule", icon: BookOpen, path: "/student/exam-schedule" },
+  { title: "Attendance", icon: CheckSquare2, path: "/student/attendance" },
+  { title: "Organizations", icon: Users, path: "/student/organizations" },
+  { title: "Forms", icon: FileText, path: "/student/forms" },
+  { title: "Printing", icon: Printer, path: "/student/printing" },
+];
 
 export default function Topbar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -39,9 +63,24 @@ export default function Topbar() {
     <>
       <header className="topbar">
         <div>
-          <h2>Good day, {userName} 👋</h2>
+          <br></br>
+          <h2>Good day, {userName}</h2>
+          <br></br>
           <p>Welcome to your StudentHub portal</p>
         </div>
+
+        <nav className="topbar-navigation" aria-label="StudentHub navigation">
+          {dashboardNavigation.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <Link key={item.path} to={item.path} className="topbar-nav-link">
+                <Icon size={17} />
+                <span>{item.title}</span>
+              </Link>
+            );
+          })}
+        </nav>
 
         <div className="topbar-right">
           <button className="search-box-btn" onClick={() => setSearchOpen(true)}>

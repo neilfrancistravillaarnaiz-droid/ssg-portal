@@ -1,5 +1,15 @@
-import { useState } from "react";
-import { CheckSquare2, ClipboardList, Clock3 } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  BarChart3,
+  CheckCircle2,
+  CheckSquare2,
+  Clock3,
+  QrCode,
+  ScanLine,
+  ShieldAlert,
+  XCircle,
+} from "lucide-react";
+import { supabase } from "../../../lib/supabase";
 
 const initialAttendance = [
   {
@@ -7,134 +17,195 @@ const initialAttendance = [
     event: "Student Leadership Seminar",
     type: "Seminar",
     details: "June 29, 2026 • 10:00 AM • Main Auditorium",
-    attending: true,
+    status: "attended",
+    round: "Round 1",
+    checkpoints: { morningIn: "attended", morningOut: "attended", afternoonIn: "attended", afternoonOut: "attended" },
   },
   {
     id: "event-2",
     event: "Club Fair Orientation",
     type: "Orientation",
     details: "June 30, 2026 • 1:00 PM • Activity Hall",
-    attending: false,
+    status: "absent",
+    round: "Round 1",
+    checkpoints: { morningIn: "attended", morningOut: "missed", afternoonIn: "missed", afternoonOut: "attended" },
   },
   {
     id: "event-3",
     event: "Career Prep Workshop",
     type: "Workshop",
     details: "July 1, 2026 • 3:00 PM • Conference Room B",
-    attending: true,
+    status: "attended",
+    round: "Round 2",
+    checkpoints: { morningIn: "attended", morningOut: "attended", afternoonIn: "attended", afternoonOut: "attended" },
   },
 ];
 
+const checkpointLabels = [
+  ["morningIn", "Morning in"],
+  ["morningOut", "Morning out"],
+  ["afternoonIn", "Afternoon in"],
+  ["afternoonOut", "Afternoon out"],
+] as const;
+
 export default function Attendance() {
-  const [records, setRecords] = useState(initialAttendance);
-  const [submitted, setSubmitted] = useState(false);
+  const [studentId, setStudentId] = useState("STUDENT-PREVIEW");
 
-  const toggleAttendance = (id: string) => {
-    setSubmitted(false);
-    setRecords((current) =>
-      current.map((record) =>
-        record.id === id
-          ? { ...record, attending: !record.attending }
-          : record,
-      ),
-    );
-  };
+  useEffect(() => {
+    async function loadStudentId() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const id = user?.user_metadata?.student_id;
 
-  const submitAttendance = () => {
-    setSubmitted(true);
-  };
+      if (id) setStudentId(String(id));
+    }
+
+    loadStudentId();
+  }, []);
+
+  const attendedCount = initialAttendance.filter((record) => record.status === "attended").length;
+  const absentCount = initialAttendance.length - attendedCount;
+  const attendanceRate = Math.round((attendedCount / initialAttendance.length) * 100);
+  const qrValue = `studenthub:attendance:${studentId}`;
 
   return (
-    <div className="dashboard-page">
+    <main className="dashboard-page attendance-page">
       <div className="page-title">
         <CheckSquare2 size={24} />
         <h1>Attendance</h1>
       </div>
 
-      <div className="dashboard-panel">
-        <div className="panel-header" style={{ alignItems: "flex-start" }}>
-          <div>
-            <h2>Event Attendance</h2>
-            <p style={{ color: "#6b7280", marginTop: "0.5rem" }}>
-              Confirm attendance for upcoming campus events and submit the record.
-            </p>
+      <div className="attendance-overview-grid">
+        <section className="dashboard-panel attendance-qr-panel">
+          <div className="attendance-section-heading">
+            <div>
+              <span className="eyebrow">SSG event check-in</span>
+              <h2>Your attendance QR</h2>
+              <p>Show this code to an SSG officer when you arrive at an event.</p>
+            </div>
+            <QrCode size={28} />
           </div>
-          <div style={{ textAlign: "right" }}>
-            <p style={{ margin: 0, fontWeight: 800 }}>
-              {records.filter((record) => record.attending).length}/{records.length} attending
-            </p>
-          </div>
-        </div>
 
-        <div className="activity-list">
-          {records.map((record) => (
-            <div key={record.id} className="activity-item">
+          <div className="attendance-qr-content">
+            <img
+              className="attendance-qr"
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(qrValue)}`}
+              alt="Personal attendance QR code"
+            />
+            <div className="attendance-qr-details">
+              <span>Student ID</span>
+              <strong>{studentId}</strong>
+              <div className="scan-note">
+                <ScanLine size={18} />
+                Ready to scan
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="dashboard-panel attendance-analytics-panel">
+          <div className="attendance-section-heading">
+            <div>
+              <span className="eyebrow">Round analytics</span>
+              <h2>Participation snapshot</h2>
+              <p>See how consistently you have shown up for SSG events.</p>
+            </div>
+            <BarChart3 size={28} />
+          </div>
+          <div className="attendance-stat-row">
+            <div><strong>{attendanceRate}%</strong><span>Attendance rate</span></div>
+            <div><strong>{attendedCount}</strong><span>Attended</span></div>
+            <div><strong>{absentCount}</strong><span>Absent</span></div>
+          </div>
+          <div className="round-chart" aria-label="Attendance by round">
+            {["Round 1", "Round 2"].map((round) => {
+              const roundRecords = initialAttendance.filter((record) => record.round === round);
+              const roundAttended = roundRecords.filter((record) => record.status === "attended").length;
+              const percentage = roundRecords.length ? (roundAttended / roundRecords.length) * 100 : 0;
+              const checkpointSummary = checkpointLabels.map(([key, label]) => {
+                const attended = roundRecords.filter((record) => record.checkpoints[key] === "attended").length;
+                return { label, attended, total: roundRecords.length };
+              });
+
+              return (
+                <div className="round-row" key={round}>
+                  <div className="round-ring" style={{ "--progress": `${percentage}%` } as React.CSSProperties}>
+                    <strong>{Math.round(percentage)}%</strong>
+                  </div>
+                  <div className="round-details">
+                    <div className="round-heading">
+                      <span>{round}</span>
+                      <strong>{roundAttended}/{roundRecords.length} events</strong>
+                    </div>
+                    <div className="round-events">
+                      {roundRecords.map((record) => <span key={record.id}>{record.event}</span>)}
+                    </div>
+                    <div className="checkpoint-grid">
+                      {checkpointSummary.map(({ label, attended, total }) => (
+                        <div className={`checkpoint-item ${attended === total ? "attended" : attended === 0 ? "missed" : "mixed"}`} key={label}>
+                          <span>{label}</span>
+                          <strong>{attended}/{total}</strong>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      </div>
+
+      <section className="dashboard-panel attendance-history-panel">
+        <div className="attendance-section-heading">
+          <div>
+            <span className="eyebrow">Event history</span>
+            <h2>Attended and absent events</h2>
+          </div>
+          <Clock3 size={26} />
+        </div>
+        <div className="attendance-history-list">
+          {initialAttendance.map((record) => (
+            <article className="attendance-history-item" key={record.id}>
               <div>
                 <strong>{record.event}</strong>
-                <div style={{ margin: "0.35rem 0", display: "inline-flex", gap: "0.4rem", flexWrap: "wrap" }}>
-                  <span style={{
-                    padding: "0.2rem 0.55rem",
-                    borderRadius: "999px",
-                    background: "rgba(59, 130, 246, 0.12)",
-                    color: "#1d4ed8",
-                    fontSize: "0.75rem",
-                    fontWeight: 700,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                  }}>
-                    {record.type}
-                  </span>
+                <span>{record.type} · {record.round} · {record.details}</span>
+                <div className="attendance-checkpoints" aria-label={`${record.event} checkpoint attendance`}>
+                  {checkpointLabels.map(([key, label]) => (
+                    <span className={record.checkpoints[key]} key={key}>
+                      {record.checkpoints[key] === "attended" ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
+                      {label}
+                    </span>
+                  ))}
                 </div>
-                <p>{record.details}</p>
               </div>
-              <button
-                type="button"
-                onClick={() => toggleAttendance(record.id)}
-                style={{
-                  border: "1px solid #dbeafe",
-                  borderRadius: "12px",
-                  padding: "0.75rem 1rem",
-                  background: record.attending ? "#d1fae5" : "#f8fafc",
-                  color: record.attending ? "#065f46" : "#1f2937",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  minWidth: "144px",
-                  justifyContent: "center",
-                }}
-              >
-                <Clock3 size={16} />
-                {record.attending ? "Attending" : "Not attending"}
-              </button>
-            </div>
+              <span className={`attendance-status ${record.status}`}>
+                {record.status === "attended" ? <CheckCircle2 size={17} /> : <XCircle size={17} />}
+                {record.status === "attended" ? "Attended" : "Absent"}
+              </span>
+            </article>
           ))}
         </div>
+      </section>
 
-        <div style={{ marginTop: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
-          <button
-            type="button"
-            onClick={submitAttendance}
-            style={{
-              padding: "0.95rem 1.25rem",
-              borderRadius: "14px",
-              border: "none",
-              background: "#2563eb",
-              color: "white",
-              cursor: "pointer",
-              fontWeight: 700,
-            }}
-          >
-            <ClipboardList size={18} />
-            Submit Attendance
-          </button>
-          {submitted && (
-            <span style={{ color: "#16a34a", fontWeight: 700 }}>
-              Attendance saved successfully.
-            </span>
-          )}
+      <section className="dashboard-panel sanction-summary-panel">
+        <div className="attendance-section-heading">
+          <div>
+            <span className="eyebrow">Student standing</span>
+            <h2>Sanction information</h2>
+            <p>Review any event-related sanctions connected to your attendance.</p>
+          </div>
+          <ShieldAlert size={26} />
         </div>
-      </div>
-    </div>
+        <div className="sanction-clear-state">
+          <CheckCircle2 size={22} />
+          <div>
+            <strong>No Active Sanctions</strong>
+            <span>You currently have no active event sanctions.</span>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

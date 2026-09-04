@@ -1,6 +1,17 @@
-import ssgLogo from "../../../assets/organizations/logo-ssg.jpg";
 import rcyLogo from "../../../assets/organizations/rcy-logo.jpg";
 import peerLogo from "../../../assets/organizations/peer-logo.jpg";
+import creativeVisionariesLogo from "../../../assets/logos/CV.jpg";
+import techedLogo from "../../../assets/logos/TECHED.jpg";
+import udsuhanLogo from "../../../assets/logos/UDSUHAN.jpg";
+import eceaLogo from "../../../assets/logos/ECEA.jpg";
+import gamaLogo from "../../../assets/logos/gama.jpg";
+import pabulusLogo from "../../../assets/logos/pabulus.jpg";
+import lightLogo from "../../../assets/logos/light.jpg";
+import himigLogo from "../../../assets/logos/himig.jpg";
+import asensoLogo from "../../../assets/logos/asenso.jpg";
+import sibyaLogo from "../../../assets/logos/sibya.jpg";
+import checkmateLogo from "../../../assets/logos/checkmate.jpg";
+import bibliophileLogo from "../../../assets/logos/ccd.jpg";
 import { useState } from "react";
 import {
   X,
@@ -14,48 +25,31 @@ import {
 
 const organizations = [
   {
-    name: "Supreme Student Government",
-    type: "Governing Body",
-    logo: ssgLogo,
-    cover: "Student leadership and governance",
-    description:
-      "The official student governing body representing student welfare, services, and leadership.",
-    adviser: "SSG Adviser",
-    president: "SSG President",
-    members: "All Students",
-    activities: "Assemblies, student services, leadership programs",
-    facebook: "#",
-    website: "#",
+    name: "Creative Visionaries Club", type: "Multimedia Club", logo: creativeVisionariesLogo, members: "150 Members",
   },
-  {
-    name: "City College of Davao Red Cross Youth Organization",
-    type: "Academic Organization",
-    logo: rcyLogo,
-    cover: "Technology, innovation, and digital skills",
-    description:
-      "Promotes programming, digital literacy, technology awareness, and innovation among students.",
-    adviser: "ICT Adviser",
-    president: "ICT President",
-    members: "120 Members",
-    activities: "Coding sessions, tech talks, workshops",
-    facebook: "#",
-    website: "#",
-  },
-  {
-    name: "Peer Facilitators Guild",
-    type: "Cultural Organization",
-    logo: peerLogo,
-    cover: "Creativity, culture, and expression",
-    description:
-      "Encourages creativity, culture, performance, visual arts, and student expression.",
-    adviser: "Arts Adviser",
-    president: "Arts President",
-    members: "80 Members",
-    activities: "Performances, exhibits, cultural events",
-    facebook: "#",
-    website: "#",
-  },
-];
+  { name: "TechEd Innovators Club", type: "Programming Club", logo: techedLogo, members: "130 Members" },
+  { name: "Udsuhan Dance Club", type: "Dance Club", logo: udsuhanLogo, members: "95 Members" },
+  { name: "ECEA", type: "Early Childhood Club", logo: eceaLogo, members: "110 Members" },
+  { name: "GAMA", type: "Arts Club", logo: gamaLogo, members: "125 Members" },
+  { name: "Pabulus", type: "Indigenous People Club", logo: pabulusLogo, members: "90 Members" },
+  { name: "Light Bearers", type: "Campus Ministry", logo: lightLogo, members: "80 Members" },
+  { name: "Himig Kolehiyo", type: "Music Club", logo: himigLogo, members: "105 Members" },
+  { name: "Peer Facilitator Guild", type: "Peer Facilitators Club", logo: peerLogo, members: "115 Members" },
+  { name: "Asenso Kolehiyo", type: "Entrepreneurship Club", logo: asensoLogo, members: "95 Members" },
+  { name: "SIBYA", type: "School Publication", logo: sibyaLogo, members: "120 Members" },
+  { name: "Checkmate", type: "Chess Club", logo: checkmateLogo, members: "88 Members" },
+  { name: "Redcross Youth", type: "Emergency Response Club", logo: rcyLogo, members: "98 Members" },
+  { name: "Bibliophile", type: "Book Club", logo: bibliophileLogo, members: "106 Members" },
+].map((organization) => ({
+  ...organization,
+  cover: `${organization.type} • ${organization.members}`,
+  description: `A registered student organization focused on ${organization.type.toLowerCase()} and student engagement.`,
+  adviser: "Organization Adviser",
+  president: "Student President",
+  activities: "Club activities, projects, and campus events",
+  facebook: "#",
+  website: "#",
+}));
 
 export default function Organizations() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -121,6 +115,14 @@ export default function Organizations() {
         <button onClick={nextOrg}>
           <ChevronRight size={20} />
         </button>
+      </div>
+
+      <div className="org-directory-heading">
+        <div>
+          <span className="eyebrow">Registered clubs</span>
+          <h2>Student organization directory</h2>
+        </div>
+        <strong>{organizations.length} organizations</strong>
       </div>
 
       <div className="org-mini-grid">
