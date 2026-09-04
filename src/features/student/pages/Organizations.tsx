@@ -17,10 +17,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Globe,
   ExternalLink,
   Users,
-  CalendarDays,
 } from "lucide-react";
 
 const organizations = [
@@ -192,16 +190,6 @@ export default function Organizations() {
                   <ExternalLink size={18} />
                   Facebook Page
                 </a>
-
-                <a href={selectedOrg.website}>
-                  <Globe size={18} />
-                  Website
-                </a>
-
-                <button>
-                  <CalendarDays size={18} />
-                  View Activities
-                </button>
               </div>
             </div>
           </div>

@@ -132,6 +132,8 @@ export default function PrintRequestForm() {
         </div>
       ) : null}
 
+      <div className="printing-request-layout">
+        <div className="printing-request-column">
       <div className="upload-box" style={{ textAlign: "center" }}>
         <Upload size={28} />
         <p>{file ? file.name : "Upload your document here"}</p>
@@ -248,29 +250,29 @@ export default function PrintRequestForm() {
         placeholder="Add any special instructions for your print job"
       />
 
-      <div className="price-list">
-        <h4>Price list</h4>
-        <ul>
-          <li>Black and White - ₱2.00</li>
-          <li>Colored Minimal - ₱3.00</li>
-          <li>Colored Half - ₱5.00</li>
-          <li>Colored Full - ₱7.00</li>
-          <li>Bring your own paper - subtract ₱1.00 from the selected rate</li>
-        </ul>
-      </div>
-
-      <div style={{ margin: "1rem 0", display: "grid", gap: "0.4rem" }}>
-        <span style={{ color: "#4b5f7a", fontWeight: 700 }}>
-          Price per copy: ₱{unitPrice.toFixed(2)}
-        </span>
-        <span style={{ color: "#071a38", fontWeight: 800 }}>
-          Estimated total: ₱{totalPrice.toFixed(2)}
-        </span>
-      </div>
-
       <button className="page-btn" type="submit" disabled={loading}>
         {loading ? "Submitting request..." : "Submit Print Request"}
       </button>
+        </div>
+
+        <aside className="printing-price-column">
+          <div className="price-list">
+            <h4>Price list</h4>
+            <ul>
+              <li>Black and White - ₱2.00</li>
+              <li>Colored Minimal - ₱3.00</li>
+              <li>Colored Half - ₱5.00</li>
+              <li>Colored Full - ₱7.00</li>
+              <li>Bring your own paper - subtract ₱1.00 from the selected rate</li>
+            </ul>
+          </div>
+
+          <div className="printing-total">
+            <span>Price per copy: ₱{unitPrice.toFixed(2)}</span>
+            <strong>Estimated total: ₱{totalPrice.toFixed(2)}</strong>
+          </div>
+        </aside>
+      </div>
     </form>
   );
 }

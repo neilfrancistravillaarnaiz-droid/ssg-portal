@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 const examSchedule = [
   {
@@ -31,32 +31,44 @@ export default function ExamSchedule() {
 
       <div className="dashboard-panel">
         <div className="panel-header">
-          <h2>Upcoming Exams</h2>
+          <div>
+            <span className="schedule-label">Official examination schedule</span>
+            <h2>Upcoming Examinations</h2>
+          </div>
+          <span className="schedule-term">Academic Year 2026</span>
         </div>
 
-        <div className="activity-list">
-          {examSchedule.map((exam) => (
-            <div key={exam.course} className="activity-item">
-              <div>
-                <strong>{exam.course}</strong>
-                <p>{exam.date}</p>
-              </div>
-              <div style={{ textAlign: "right" }}>
-                <p>
-                  <CalendarDays size={16} /> {exam.time}
-                </p>
-                <p>
-                  <MapPin size={16} /> {exam.venue}
-                </p>
-              </div>
-            </div>
-          ))}
+        <div className="exam-table-wrapper">
+          <table className="exam-table">
+            <thead>
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Subject / Course</th>
+                <th scope="col">Examination Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Room / Venue</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {examSchedule.map((exam, index) => (
+                <tr key={exam.course}>
+                  <td data-label="No.">{String(index + 1).padStart(2, "0")}</td>
+                  <th scope="row" data-label="Subject / Course">{exam.course}</th>
+                  <td data-label="Examination Date">{exam.date}</td>
+                  <td data-label="Time">{exam.time}</td>
+                  <td data-label="Room / Venue">{exam.venue}</td>
+                  <td data-label="Status"><span className="exam-status">Scheduled</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        <div className="dashboard-grid" style={{ marginTop: "1.5rem" }}>
-          <div className="dashboard-panel" style={{ padding: "1.25rem" }}>
+        <div className="exam-notes">
+          <div className="dashboard-panel">
             <h3>How it works</h3>
-            <p style={{ color: "#6b7280", marginTop: "0.75rem" }}>
+            <p>
               Use this page to view your official exam dates, times, and locations.
               Contact your adviser if any schedules need clarification.
             </p>

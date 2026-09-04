@@ -37,16 +37,6 @@ export default function Topbar() {
 
   useEffect(() => {
     loadUser();
-
-    const handleShortcut = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-
-    window.addEventListener("keydown", handleShortcut);
-    return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
   const loadUser = async () => {
@@ -86,7 +76,6 @@ export default function Topbar() {
           <button className="search-box-btn" onClick={() => setSearchOpen(true)}>
             <Search size={18} />
             <span>Search StudentHub...</span>
-            <kbd>Ctrl K</kbd>
           </button>
 
           <div className="dropdown-wrap">
